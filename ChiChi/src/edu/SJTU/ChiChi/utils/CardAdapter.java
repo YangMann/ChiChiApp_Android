@@ -49,7 +49,7 @@ public class CardAdapter extends BaseAdapter {
         if (convertView == null) {
             switch (cardType) {
                 case 0: {
-                    vi = inflater.inflate(R.layout.card_1, null);
+                    vi = inflater.inflate(R.layout.card_0, null);
                     break;
                 }
             }
