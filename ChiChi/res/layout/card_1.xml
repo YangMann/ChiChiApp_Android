@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:id="@+id/thumbnail_wrap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="3dip"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="5dip">
+
+        <ImageView
+                android:id="@+id/thumbnail"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/1"
+                android:contentDescription="@string/app_name"/>
+
+    </LinearLayout>
+
+    <edu.SJTU.ChiChi.views.VerticalTextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/thumbnail_wrap"
+            android:layout_toRightOf="@id/thumbnail_wrap"
+            android:text="珍珠丸子"
+            android:layout_marginLeft="5dp"
+            android:textSize="30dp"/>
+
+</RelativeLayout>

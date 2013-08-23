@@ -8,17 +8,13 @@ import android.os.Build;
 import android.util.Log;
 import android.view.Display;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created with IntelliJ IDEA.
  * User: JeffreyZhang
  * Date: 13-7-8
  * Time: 上午12:12
- * To change this template use File | Settings | File Templates.
  */
 public class ImageUtils {
     private static final String TAG = "ImageUtils";
@@ -81,5 +77,19 @@ public class ImageUtils {
             return size.x;
         }
         return display.getWidth();
+    }
+
+    public static void CopyStream(InputStream is, OutputStream os) {
+        final int buffer_size = 1024;
+        try {
+            byte[] bytes = new byte[buffer_size];
+            for (; ; ) {
+                int count = is.read(bytes, 0, buffer_size);
+                if (count == -1)
+                    break;
+                os.write(bytes, 0, count);
+            }
+        } catch (Exception ex) {
+        }
     }
 }

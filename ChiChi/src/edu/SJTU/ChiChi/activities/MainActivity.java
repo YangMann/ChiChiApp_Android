@@ -4,15 +4,18 @@ import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.*;
 import edu.SJTU.ChiChi.R;
-import edu.SJTU.ChiChi.views.CenterImageView;
 import edu.SJTU.ChiChi.views.VerticalTextView;
 
 public class MainActivity extends Activity {
 
     VerticalTextView verticalTextView;
     TextView mWidth;
+    ListView mList;
+    ImageView mBg;
+    View headerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +31,34 @@ public class MainActivity extends Activity {
 //        verticalTextView.setVerticalText(text, true);
 //        verticalTextView.setTypeface(Sung);
 
-        CenterImageView backgroundImage = (CenterImageView) findViewById(R.id.background);
-        backgroundImage.setImageResource(R.drawable.bg);
+//        CenterImageView backgroundImage = (CenterImageView) findViewById(R.id.background);
+//        backgroundImage.setImageResource(R.drawable.bg1);
+//
+//        mWidth = (TextView) findViewById(R.id.width);
+//        mWidth.setText(String.valueOf(findViewById(R.id.linearLayout).getWidth()));
+        mList = (ListView) findViewById(R.id.listView);
+        mBg = (ImageView) findViewById(R.id.normal_image);
+
+        headerView = new View(this);
+        headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 700));
+        mList.addHeaderView(headerView);
+        String[] strings = getResources().getStringArray(R.array.list_content);
+        mList.setAdapter(new ArrayAdapter<String>(this, R.layout.list_item, strings));
+        mList.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                // Parallax effect : we apply half the scroll amount to our
+                mBg.setTop(headerView.getTop() / 2);
+
+            }
+        });
 
     }
 
