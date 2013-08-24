@@ -17,7 +17,7 @@
                 android:id="@+id/thumbnail"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/1"
+                android:src="@drawable/c1"
                 android:contentDescription="@string/app_name"/>
 
     </LinearLayout>

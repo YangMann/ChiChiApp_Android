@@ -1,14 +1,22 @@
 package edu.SJTU.ChiChi.activities;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.TextView;
 import edu.SJTU.ChiChi.R;
+import edu.SJTU.ChiChi.utils.FoodGenerator;
+import edu.SJTU.ChiChi.utils.ImageLoader;
 import edu.SJTU.ChiChi.views.VerticalTextView;
 
+@SuppressLint("NewApi")
 public class MainActivity extends Activity {
 
     VerticalTextView verticalTextView;
@@ -16,12 +24,17 @@ public class MainActivity extends Activity {
     ListView mList;
     ImageView mBg;
     View headerView;
+    ImageLoader imageloader;
+    FoodGenerator foodgenerator = new FoodGenerator();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
+        imageloader = new ImageLoader(this);
+        
+        FoodGenerator.Food food = foodgenerator.getFood(0);
+        
         String text = "蒜泥白肉粉蒸雞塊\n珍珠丸子紅燒排骨奧爾良雞";
         Typeface Sung = Typeface.createFromAsset(getAssets(), "fonts/ChekiangSung.otf");
 
@@ -38,6 +51,8 @@ public class MainActivity extends Activity {
 //        mWidth.setText(String.valueOf(findViewById(R.id.linearLayout).getWidth()));
         mList = (ListView) findViewById(R.id.listView);
         mBg = (ImageView) findViewById(R.id.normal_image);
+        //设置背景
+        imageloader.DisplayImage(food.url, mBg);
 
         headerView = new View(this);
         headerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 700));
