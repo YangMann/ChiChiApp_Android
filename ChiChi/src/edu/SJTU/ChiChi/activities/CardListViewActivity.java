@@ -1,16 +1,18 @@
 package edu.SJTU.ChiChi.activities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 //import edu.SJTU.ChiChi.utils.JSONParser;
 //import edu.SJTU.ChiChi.utils.XMLParser;
@@ -26,6 +28,7 @@ import java.util.HashMap;
  * Date: 13-8-23
  * Time: 下午4:05
  */
+@SuppressLint("NewApi")
 public class CardListViewActivity extends Activity {
     //    private String URL = "";
     // XML node keys
@@ -46,6 +49,10 @@ public class CardListViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
 //        XMLParser parser = new XMLParser();
