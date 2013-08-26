@@ -1,44 +1,49 @@
-[{
-	"building" : "二餐",
-	"restaurants" : [
-	{
-		"restaurant" : "川味",
-		"foods":[
-		{
-			"name":"肥肠面",
-			"url":"http://fmn.xnpic.com/fmn057/20121204/2025/large_gTp2_7e5100000d37118f.jpg",
-			"genre":"川菜",
-			"price":"6.5",
-			"taste":"好吃",
-			"description":"blahblah",
-		},
-		{
-			"name":"外婆煎饼",
-			"url":"http://fmn.rrimg.com/fmn058/20121204/2025/large_4sZb_122100000d71118e.jpg",
-			"genre":"川菜",
-			"price":"2.5",
-			"taste":"好吃",
-			"description":"blahblah",
-		}]
-	},
-	{
-		"restaurant":"上海快餐",
-		"foods":[
-		{
-			"name":"红烧肉焖蛋",
-			"url":"http://page.renren.com/601599241/photo/6788701716#6788701712",
-			"genre":"上海菜",
-			"price":"4",
-			"taste":"好吃",
-			"description":"红烧肉blahblah",
-		},
-		{
-			"name":"奥尔良烤鸡腿",
-			"url":"http://fmn.rrimg.com/fmn062/20121204/2025/large_wfvO_55f000000d7d125c.jpg",
-			"genre":"上海菜",
-			"price":"4",
-			"taste":"不错",
-			"description":"烤鸡腿blahblah",
-		}
-	}]
-}]
+[
+    {
+        "building": "二餐",
+        "restaurants": [
+            {
+                "restaurant": "川味",
+                "foods": [
+                    {
+                        "name": "肥肠面",
+                        "url": "http://fmn.xnpic.com/fmn057/20121204/2025/large_gTp2_7e5100000d37118f.jpg",
+                        "genre": "川菜",
+                        "price": "6.5",
+                        "taste": "好吃",
+                        "description": "blahblah"
+                    },
+                    {
+                        "name": "外婆煎饼",
+                        "url": "http://fmn.rrimg.com/fmn058/20121204/2025/large_4sZb_122100000d71118e.jpg",
+                        "genre": "川菜",
+                        "price": "2.5",
+                        "taste": "好吃",
+                        "description": "blahblah"
+                    }
+                ]
+            },
+            {
+                "restaurant": "上海快餐",
+                "foods": [
+                    {
+                        "name": "红烧肉焖蛋",
+                        "url": "http://page.renren.com/601599241/photo/6788701716#6788701712",
+                        "genre": "上海菜",
+                        "price": "4",
+                        "taste": "好吃",
+                        "description": "红烧肉blahblah"
+                    },
+                    {
+                        "name": "奥尔良烤鸡腿",
+                        "url": "http://fmn.rrimg.com/fmn062/20121204/2025/large_wfvO_55f000000d7d125c.jpg",
+                        "genre": "上海菜",
+                        "price": "4",
+                        "taste": "不错",
+                        "description": "烤鸡腿blahblah"
+                    }
+                ]
+            }
+        ]
+    }
+]

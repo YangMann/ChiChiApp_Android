@@ -21,7 +21,7 @@ public class JSONParser {
 
             HttpResponse httpResponse = httpClient.execute(httpPost);
             HttpEntity httpEntity = httpResponse.getEntity();
-            json = EntityUtils.toString(httpEntity);
+            json = EntityUtils.toString(httpEntity, "UTF-8");
 
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

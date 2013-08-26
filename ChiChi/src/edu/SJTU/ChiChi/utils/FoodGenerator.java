@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.Random;
 
 public class FoodGenerator {
-    String json_url = "https://raw.github.com/YangMann/ChiChiApp_Android/master/food.json";
+    String json_url = "http://wl.ibox.sjtu.edu.cn/w/8207/food.json";
     JSONArray json;
     String test =
             "[" +
