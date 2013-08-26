@@ -32,6 +32,7 @@ public class CardAdapter extends BaseAdapter {
         data = d;
         cardType = c;
         inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        imageLoader = new ImageLoader(a.getApplicationContext());
     }
 
     public int getCount() {
