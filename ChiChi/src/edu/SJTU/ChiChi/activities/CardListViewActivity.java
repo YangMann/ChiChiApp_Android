@@ -7,13 +7,18 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.CardAdapter;
-import edu.SJTU.ChiChi.utils.XMLParser;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import edu.SJTU.ChiChi.utils.FoodGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+//import edu.SJTU.ChiChi.utils.JSONParser;
+//import edu.SJTU.ChiChi.utils.XMLParser;
+//import org.json.JSONArray;
+//import org.json.JSONException;
+//import org.w3c.dom.Document;
+//import org.w3c.dom.Element;
+//import org.w3c.dom.NodeList;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,10 +27,10 @@ import java.util.HashMap;
  * Time: 下午4:05
  */
 public class CardListViewActivity extends Activity {
-    private String URL = "";
+    //    private String URL = "";
     // XML node keys
-    public static final String KEY_DISH = "dish"; // parent node
-    public static final String KEY_ID = "id";
+//    public static final String KEY_DISH = "dish"; // parent node
+//    public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_GENRE = "genre";
     public static final String KEY_LOCATION = "location";
@@ -43,23 +48,26 @@ public class CardListViewActivity extends Activity {
         setContentView(R.layout.main);
 
         ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
-        XMLParser parser = new XMLParser();
-        String xml = parser.getXmlFromUrl(URL);
-        Document doc = parser.getDomElement(xml);
-        NodeList nl = doc.getElementsByTagName(KEY_DISH);
+//        XMLParser parser = new XMLParser();
+//        String xml = parser.getXmlFromUrl(URL);
+//        Document doc = parser.getDomElement(xml);
+//        NodeList nl = doc.getElementsByTagName(KEY_DISH);
+        FoodGenerator fg = new FoodGenerator();
+        FoodGenerator.Food food = fg.getFood(0);
         // looping through all dish nodes <dish>
-        for (int i = 0; i < nl.getLength(); i++) {
+//        for (int i = 0; i < nl.getLength(); i++) {
+        for (int i = 0; i < 1; i++) {
             HashMap<String, String> map = new HashMap<String, String>();
-            Element e = (Element) nl.item(i);
+//            Element e = (Element) nl.item(i);
             // adding each child node to HashMap key => value
-            map.put(KEY_ID, parser.getValue(e, KEY_ID));
-            map.put(KEY_NAME, parser.getValue(e, KEY_NAME));
-            map.put(KEY_GENRE, parser.getValue(e, KEY_GENRE));
-            map.put(KEY_LOCATION, parser.getValue(e, KEY_LOCATION));
-            map.put(KEY_PRICE, parser.getValue(e, KEY_PRICE));
-            map.put(KEY_TASTE, parser.getValue(e, KEY_TASTE));
-            map.put(KEY_DESCRIPTION, parser.getValue(e, KEY_DESCRIPTION));
-            map.put(KEY_THUMB_URL, parser.getValue(e, KEY_THUMB_URL));
+//            map.put(KEY_ID, food.getValue(e, KEY_ID));
+            map.put(KEY_NAME, food.name);
+            map.put(KEY_GENRE, food.genre);
+            map.put(KEY_LOCATION, food.building);
+            map.put(KEY_PRICE, food.price);
+            map.put(KEY_TASTE, food.taste);
+            map.put(KEY_DESCRIPTION, food.description);
+            map.put(KEY_THUMB_URL, food.url);
 
             // adding HashList to ArrayList
             dishList.add(map);
