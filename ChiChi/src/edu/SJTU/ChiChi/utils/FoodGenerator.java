@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FoodGenerator {
-	String json_url="https://github.com/YangMann/ChiChiApp_Android/blob/master/food.json";
+	String json_url="https://raw.github.com/YangMann/ChiChiApp_Android/master/food.json";
 	JSONArray json;
 	String test=
 			"[" +
