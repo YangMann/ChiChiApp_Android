@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.activities.CardListViewActivity;
+import edu.SJTU.ChiChi.views.VerticalTextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,13 +62,15 @@ public class CardAdapter extends BaseAdapter {
         HashMap<String, String> dish = data.get(position);
         switch (cardType) {
             case 0: {
-                TextView name = (TextView) vi.findViewById(R.id.name);
+                VerticalTextView name = (VerticalTextView) vi.findViewById(R.id.name);
                 ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
                 TextView price = (TextView) vi.findViewById(R.id.price);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
                 TextView location = (TextView) vi.findViewById(R.id.location);
 
-                name.setText(dish.get(CardListViewActivity.KEY_NAME));
+                name.setColumnSpacing(2);
+                name.setHeight(300);
+                name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
                 taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
                 location.setText(dish.get(CardListViewActivity.KEY_LOCATION));
