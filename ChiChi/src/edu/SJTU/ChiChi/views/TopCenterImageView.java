@@ -32,7 +32,7 @@ public class TopCenterImageView extends ImageView {
             return super.setFrame(l, t, r, b);
         }
         Matrix matrix = getImageMatrix();
-        float scaleFactor = getWidth() / (float) getDrawable().getIntrinsicWidth();
+        float scaleFactor = getHeight() / (float) getDrawable().getIntrinsicHeight() * (float)1.3;
         matrix.setScale(scaleFactor, scaleFactor, 0, 0);
         setImageMatrix(matrix);
         return super.setFrame(l, t, r, b);

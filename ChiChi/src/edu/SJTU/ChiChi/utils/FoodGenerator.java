@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class FoodGenerator {
-	String json_url="";
+	String json_url="https://github.com/YangMann/ChiChiApp_Android/blob/master/food.json";
 	JSONArray json;
 	String test=
 			"[" +
@@ -26,8 +26,8 @@ public class FoodGenerator {
 			"]"	;
 	public FoodGenerator()
 	{
-		//String json_string = JSONParser.getJsonFromUrl(json_url);
-		String json_string = test;
+		String json_string = JSONParser.getJsonFromUrl(json_url);
+		//String json_string = test;
 		try {
 			json = new JSONArray(json_string);
 		} catch (JSONException e) {
