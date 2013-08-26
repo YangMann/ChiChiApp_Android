@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import edu.SJTU.ChiChi.R;
+import edu.SJTU.ChiChi.activities.CardListViewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,11 +26,12 @@ public class CardAdapter extends BaseAdapter {
     private int cardType;
     private static LayoutInflater inflater = null;
 
+    public ImageLoader imageLoader;
+
     public CardAdapter(Activity a, ArrayList<HashMap<String, String>> d, int c) {
-        Activity activity = a;
         data = d;
         cardType = c;
-        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
@@ -60,7 +62,15 @@ public class CardAdapter extends BaseAdapter {
             case 0: {
                 TextView name = (TextView) vi.findViewById(R.id.name);
                 ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
+                TextView price = (TextView) vi.findViewById(R.id.price);
+                TextView taste = (TextView) vi.findViewById(R.id.taste);
+                TextView location = (TextView) vi.findViewById(R.id.location);
 
+                name.setText(dish.get(CardListViewActivity.KEY_NAME));
+                price.setText(dish.get(CardListViewActivity.KEY_PRICE));
+                taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
+                location.setText(dish.get(CardListViewActivity.KEY_LOCATION));
+                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
             }
         }
 

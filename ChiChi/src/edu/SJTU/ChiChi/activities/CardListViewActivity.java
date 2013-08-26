@@ -2,6 +2,8 @@ package edu.SJTU.ChiChi.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.CardAdapter;
@@ -22,18 +24,18 @@ import java.util.HashMap;
 public class CardListViewActivity extends Activity {
     private String URL = "";
     // XML node keys
-    static final String KEY_DISH = "dish"; // parent node
-    static final String KEY_ID = "id";
-    static final String KEY_NAME = "name";
-    static final String KEY_GENRE = "genre";
-    static final String KEY_LOCATION = "location";
-    static final String KEY_PRICE = "price";
-    static final String KEY_TASTE = "taste";
-    static final String KEY_DESCRIPTION = "description";
-    static final String KEY_THUMB_URL = "thumb_url";
+    public static final String KEY_DISH = "dish"; // parent node
+    public static final String KEY_ID = "id";
+    public static final String KEY_NAME = "name";
+    public static final String KEY_GENRE = "genre";
+    public static final String KEY_LOCATION = "location";
+    public static final String KEY_PRICE = "price";
+    public static final String KEY_TASTE = "taste";
+    public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_THUMB_URL = "thumb_url";
 
     ListView list;
-    CardAdapter adapter1, adapter2, adapter3;
+    CardAdapter adapter0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,18 @@ public class CardListViewActivity extends Activity {
         }
 
         list = (ListView) findViewById(R.id.listView);
-        adapter1 = new CardAdapter(this, dishList, 0);
+        adapter0 = new CardAdapter(this, dishList, 0);
+        list.setAdapter(adapter0);
+
+        // Click event for single list row
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+
+            }
+        });
     }
 }
