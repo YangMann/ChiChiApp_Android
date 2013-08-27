@@ -2,6 +2,7 @@ package edu.SJTU.ChiChi.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ public class CardAdapter extends BaseAdapter {
     private ArrayList<HashMap<String, String>> data;
     private int cardType;
     private static LayoutInflater inflater = null;
+    private Typeface Sung;
 
     public ImageLoader imageLoader;
 
@@ -34,6 +36,7 @@ public class CardAdapter extends BaseAdapter {
         cardType = c;
         inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new ImageLoader(a.getApplicationContext());
+        Sung = Typeface.createFromAsset(a.getAssets(), "fonts/ChekiangSung.otf");
     }
 
     public int getCount() {
@@ -71,6 +74,8 @@ public class CardAdapter extends BaseAdapter {
                 name.setColumnSpacing(2);
                 name.setHeight(300);
                 name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
+                name.setTypeface(Sung);
+
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
                 taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
                 location.setText(dish.get(CardListViewActivity.KEY_LOCATION));

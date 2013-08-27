@@ -1,8 +1,5 @@
 package edu.SJTU.ChiChi.activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,14 +10,11 @@ import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
+import edu.SJTU.ChiChi.utils.ImageLoader;
+import edu.SJTU.ChiChi.views.TopCenterImageView;
 
-//import edu.SJTU.ChiChi.utils.JSONParser;
-//import edu.SJTU.ChiChi.utils.XMLParser;
-//import org.json.JSONArray;
-//import org.json.JSONException;
-//import org.w3c.dom.Document;
-//import org.w3c.dom.Element;
-//import org.w3c.dom.NodeList;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,13 +37,14 @@ public class CardListViewActivity extends Activity {
     public static final String KEY_THUMB_URL = "thumb_url";
 
     ListView list;
+    TopCenterImageView bg;
     CardAdapter adapter0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -64,6 +59,9 @@ public class CardListViewActivity extends Activity {
         FoodGenerator.Food food = fg.getFood(0);
         // looping through all dish nodes <dish>
 //        for (int i = 0; i < nl.getLength(); i++) {
+
+        bg = (TopCenterImageView) findViewById(R.id.normal_image);
+
         for (int i = 0; i < 1; i++) {
             HashMap<String, String> map = new HashMap<String, String>();
 //            Element e = (Element) nl.item(i);
@@ -79,6 +77,8 @@ public class CardListViewActivity extends Activity {
 
             // adding HashList to ArrayList
             dishList.add(map);
+            ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
+            imageLoader.DisplayImage(food.url, bg);
         }
 
         list = (ListView) findViewById(R.id.listView);
