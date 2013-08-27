@@ -55,31 +55,37 @@ public class CardListViewActivity extends Activity {
 //        String xml = parser.getXmlFromUrl(URL);
 //        Document doc = parser.getDomElement(xml);
 //        NodeList nl = doc.getElementsByTagName(KEY_DISH);
+        bg = (TopCenterImageView) findViewById(R.id.normal_image);
+
         FoodGenerator fg = new FoodGenerator();
-        FoodGenerator.Food food = fg.getFood(0);
+        FoodGenerator.Food food;
+        //如果json读取没错的话再做下一步操作
+        if(fg.noerror()){
+        	food = fg.getFood(0);
+            for (int i = 0; i < 1; i++) {
+                HashMap<String, String> map = new HashMap<String, String>();
+//                Element e = (Element) nl.item(i);
+                // adding each child node to HashMap key => value
+//                map.put(KEY_ID, food.getValue(e, KEY_ID));
+                map.put(KEY_NAME, food.name);
+                map.put(KEY_GENRE, food.genre);
+                map.put(KEY_LOCATION, food.building);
+                map.put(KEY_PRICE, food.price);
+                map.put(KEY_TASTE, food.taste);
+                map.put(KEY_DESCRIPTION, food.description);
+                map.put(KEY_THUMB_URL, food.url);
+
+                // adding HashList to ArrayList
+                dishList.add(map);
+                ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
+                imageLoader.DisplayImage(food.url, bg);
+            }
+        }
+        //TODO else... 如果json读取出错的话做点别的。。。
+        
         // looping through all dish nodes <dish>
 //        for (int i = 0; i < nl.getLength(); i++) {
 
-        bg = (TopCenterImageView) findViewById(R.id.normal_image);
-
-        for (int i = 0; i < 1; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-//            Element e = (Element) nl.item(i);
-            // adding each child node to HashMap key => value
-//            map.put(KEY_ID, food.getValue(e, KEY_ID));
-            map.put(KEY_NAME, food.name);
-            map.put(KEY_GENRE, food.genre);
-            map.put(KEY_LOCATION, food.building);
-            map.put(KEY_PRICE, food.price);
-            map.put(KEY_TASTE, food.taste);
-            map.put(KEY_DESCRIPTION, food.description);
-            map.put(KEY_THUMB_URL, food.url);
-
-            // adding HashList to ArrayList
-            dishList.add(map);
-            ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
-            imageLoader.DisplayImage(food.url, bg);
-        }
 
         list = (ListView) findViewById(R.id.listView);
         adapter0 = new CardAdapter(this, dishList, 0);
