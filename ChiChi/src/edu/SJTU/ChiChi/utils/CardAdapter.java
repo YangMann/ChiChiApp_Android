@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.activities.CardListViewActivity;
@@ -28,6 +27,9 @@ public class CardAdapter extends BaseAdapter {
     private int cardType;
     private static LayoutInflater inflater = null;
     private Typeface Sung;
+    private Typeface Segoe;
+    private Typeface Helvetica;
+    private Typeface HelveticaU;
 
     public ImageLoader imageLoader;
 
@@ -37,6 +39,9 @@ public class CardAdapter extends BaseAdapter {
         inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new ImageLoader(a.getApplicationContext());
         Sung = Typeface.createFromAsset(a.getAssets(), "fonts/ChekiangSung.otf");
+        Segoe = Typeface.createFromAsset(a.getAssets(), "fonts/segoeuil.ttf");
+        Helvetica = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-ThEx.otf");
+        HelveticaU = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-UltLtEx.otf");
     }
 
     public int getCount() {
@@ -66,20 +71,22 @@ public class CardAdapter extends BaseAdapter {
         switch (cardType) {
             case 0: {
                 VerticalTextView name = (VerticalTextView) vi.findViewById(R.id.name);
-                ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
+//                ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
                 TextView price = (TextView) vi.findViewById(R.id.price);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
                 TextView location = (TextView) vi.findViewById(R.id.location);
 
                 name.setColumnSpacing(2);
-                name.setHeight(300);
+                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * 80);
                 name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
                 name.setTypeface(Sung);
+
+                price.setTypeface(HelveticaU);
 
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
                 taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
                 location.setText(dish.get(CardListViewActivity.KEY_LOCATION));
-                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
+//                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
             }
         }
 

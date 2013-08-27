@@ -5,7 +5,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-    <LinearLayout
+    <!--<LinearLayout
             android:id="@+id/thumbnail_wrap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -20,44 +20,46 @@
                 android:src="@drawable/c1"
                 android:contentDescription="@string/app_name"/>
 
-    </LinearLayout>
-
-    <edu.SJTU.ChiChi.views.VerticalTextView
-            android:id="@+id/name"
+    </LinearLayout>-->
+    <RelativeLayout
+            android:id="@+id/name_wrap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/thumbnail_wrap"
-            android:layout_toRightOf="@id/thumbnail_wrap"
-            android:layout_marginLeft="5dp"
-            android:textSize="30dp"/>
+            android:background="#99333333"
+            android:minHeight="160dp"
+            android:gravity="bottom">
+
+        <edu.SJTU.ChiChi.views.VerticalTextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="36dp"
+                android:lineSpacingMultiplier="1.3"/>
+
+
+        <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="84dp"
+                android:layout_toRightOf="@+id/name"
+                android:layout_alignBottom="@+id/name"/>
+
+
+    </RelativeLayout>
 
     <LinearLayout
             android:id="@+id/content_wrap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/thumbnail_wrap"
-            android:orientation="vertical">
-
-        <RelativeLayout
-                android:id="@+id/row_wrap_0"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"/>
-
-        </RelativeLayout>
+            android:orientation="vertical"
+            android:layout_below="@+id/name_wrap">
 
         <RelativeLayout
                 android:id="@+id/row_wrap_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
             <TextView
                     android:id="@+id/taste"
