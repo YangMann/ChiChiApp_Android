@@ -80,14 +80,8 @@ public class CardAdapter extends BaseAdapter {
                 TextView location = (TextView) vi.findViewById(R.id.location);
                 TextView description = (TextView) vi.findViewById(R.id.description);
 
-<<<<<<< HEAD
-                name.setColumnSpacing(2);
-                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * VerticalTextHeightFactor);
-=======
                 name.setColumnSpacing(1);
-                Log.v("KEY_NAME.length", String.valueOf(dish.get(CardListViewActivity.KEY_NAME).length()));
-                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * 80);
->>>>>>> 85ea6e7bc5d552706d2a33d9031ee419feb39674
+                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * VerticalTextHeightFactor);
                 name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
                 name.setTypeface(Sung);
 

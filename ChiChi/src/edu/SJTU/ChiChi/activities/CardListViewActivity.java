@@ -62,6 +62,9 @@ public class CardListViewActivity extends Activity {
         bg = (TopCenterImageView) findViewById(R.id.normal_image);
         list = (ListView) findViewById(R.id.listView);
         
+        list.setCacheColorHint(0);
+        list.setSelected(false);
+        
         FoodGenerator fg = new FoodGenerator();
         FoodGenerator.Food food=null;
         //如果json读取没错的话再做下一步操作
