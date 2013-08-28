@@ -3,7 +3,6 @@ package edu.SJTU.ChiChi.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,8 +23,8 @@ import java.util.HashMap;
  */
 public class CardAdapter extends BaseAdapter {
 
-	public static int VerticalTextHeightFactor = 80;
-	
+    public static int VerticalTextHeightFactor = 80;
+
     private ArrayList<HashMap<String, String>> data;
     private int cardType;
     private static LayoutInflater inflater = null;
@@ -77,7 +76,8 @@ public class CardAdapter extends BaseAdapter {
 //                ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
                 TextView price = (TextView) vi.findViewById(R.id.price);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
-                TextView location = (TextView) vi.findViewById(R.id.location);
+                TextView building = (TextView) vi.findViewById(R.id.building);
+                TextView restaurant = (TextView) vi.findViewById(R.id.restaurant);
                 TextView description = (TextView) vi.findViewById(R.id.description);
 
                 name.setColumnSpacing(1);
@@ -90,7 +90,9 @@ public class CardAdapter extends BaseAdapter {
 
                 taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
 
-                location.setText(dish.get(CardListViewActivity.KEY_LOCATION));
+                building.setText(dish.get(CardListViewActivity.KEY_BUILDING));
+
+                restaurant.setText(dish.get(CardListViewActivity.KEY_RESTAURANT));
 
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
 

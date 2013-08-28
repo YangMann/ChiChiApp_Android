@@ -1,8 +1,5 @@
 package edu.SJTU.ChiChi.activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Point;
@@ -20,6 +17,9 @@ import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
 import edu.SJTU.ChiChi.views.TopCenterImageView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: JeffreyZhang
@@ -34,7 +34,8 @@ public class CardListViewActivity extends Activity {
 //    public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
     public static final String KEY_GENRE = "genre";
-    public static final String KEY_LOCATION = "location";
+    public static final String KEY_BUILDING = "building";
+    public static final String KEY_RESTAURANT = "restaurant";
     public static final String KEY_PRICE = "price";
     public static final String KEY_TASTE = "taste";
     public static final String KEY_DESCRIPTION = "description";
@@ -61,15 +62,15 @@ public class CardListViewActivity extends Activity {
 //        NodeList nl = doc.getElementsByTagName(KEY_DISH);
         bg = (TopCenterImageView) findViewById(R.id.normal_image);
         list = (ListView) findViewById(R.id.listView);
-        
+
         list.setCacheColorHint(0);
         list.setSelected(false);
-        
+
         FoodGenerator fg = new FoodGenerator();
-        FoodGenerator.Food food=null;
+        FoodGenerator.Food food = null;
         //如果json读取没错的话再做下一步操作
-        if(fg.noerror()){
-        	food = fg.getFood(0);
+        if (fg.noerror()) {
+            food = fg.getFood(0);
             for (int i = 0; i < 1; i++) {
                 HashMap<String, String> map = new HashMap<String, String>();
 //                Element e = (Element) nl.item(i);
@@ -77,7 +78,8 @@ public class CardListViewActivity extends Activity {
 //                map.put(KEY_ID, food.getValue(e, KEY_ID));
                 map.put(KEY_NAME, food.name);
                 map.put(KEY_GENRE, food.genre);
-                map.put(KEY_LOCATION, food.building);
+                map.put(KEY_BUILDING, food.building);
+                map.put(KEY_RESTAURANT, food.restaurant);
                 map.put(KEY_PRICE, food.price);
                 map.put(KEY_TASTE, food.taste);
                 map.put(KEY_DESCRIPTION, food.description);
@@ -87,28 +89,28 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
                 imageLoader.DisplayImage(food.url, bg);
-                
+
             }
         }
         //TODO else... 如果json读取出错的话做点别的。。。
-        
+
         // looping through all dish nodes <dish>
 //        for (int i = 0; i < nl.getLength(); i++) {
 
 
-        Display display = getWindowManager().getDefaultDisplay(); 
+        Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int height;
         if (display.getRotation() == Surface.ROTATION_0 || display.getRotation() == Surface.ROTATION_180)
             height = size.y;
-        else 
-        	height = size.x;
+        else
+            height = size.x;
         View headerView = new View(this);
-        int headerheight = height - (food==null?0:food.name.length()*CardAdapter.VerticalTextHeightFactor);
+        int headerheight = height - (food == null ? 0 : food.name.length() * CardAdapter.VerticalTextHeightFactor);
         headerView.setLayoutParams(new AbsListView.LayoutParams(
-        		AbsListView.LayoutParams.MATCH_PARENT, 
-        		headerheight));
+                AbsListView.LayoutParams.MATCH_PARENT,
+                headerheight));
         list.addHeaderView(headerView);
 
         adapter0 = new CardAdapter(this, dishList, 0);

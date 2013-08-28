@@ -4,5 +4,6 @@
     <string name="app_name">吃吃</string>
     <string name="action_settings">設定</string>
     <string name="hello_world">哈嘍，這個世界！</string>
+    <string name="ChiChi_Copyright">交大吃吃</string>
 
 </resources>

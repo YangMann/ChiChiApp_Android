@@ -46,8 +46,41 @@
                 android:layout_toRightOf="@+id/name"
                 android:layout_alignBottom="@+id/name"
                 android:textColor="#FFFFFF"
+                android:layout_alignParentBottom="true"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/restaurant"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                />
+                android:textSize="24dp"
+                android:textColor="#FFFFFF"/>
+
+        <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/copyright_wrap"
+                android:layout_alignParentEnd="true"
+                >
+
+            <ImageView
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:id="@+id/cc_logo"
+                    android:src="@drawable/cc_logo"
+                    android:contentDescription="@string/app_name"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginTop="1dp"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/copyright"
+                    android:text="@string/ChiChi_Copyright"
+                    android:textSize="10dp"
+                    android:textColor="#FFFFFF"/>
+        </LinearLayout>
 
 
     </RelativeLayout>
@@ -89,7 +122,7 @@
                 android:layout_marginTop="10dp">
 
             <TextView
-                    android:id="@+id/location"
+                    android:id="@+id/building"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
