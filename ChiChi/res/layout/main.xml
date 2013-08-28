@@ -8,8 +8,7 @@
              android:paddingLeft="@dimen/activity_horizontal_margin"
              android:paddingRight="@dimen/activity_horizontal_margin"
              android:paddingTop="@dimen/activity_vertical_margin"
-             tools:context=".MainActivity"
-        >
+             tools:context=".MainActivity">
 
     <edu.SJTU.ChiChi.views.TopCenterImageView
             android:id="@+id/normal_image"
@@ -17,25 +16,24 @@
             android:layout_height="match_parent"
             android:src="@drawable/bg"/>
 
-    <LinearLayout
-        android:id="@+id/list_wrap"
+    <edu.SJTU.ChiChi.views.TopCenterImageView
+            android:id="@+id/blurred_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:alpha="0"/>
 
-        <ListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@android:color/transparent"
-                android:scrollbars="none"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:dividerHeight="10dp"
-                android:footerDividersEnabled="true"
-                android:longClickable="false"
-                android:listSelector="@android:color/transparent"/>
-
-    </LinearLayout>
+    <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="@android:color/transparent"
+            android:scrollbars="none"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:dividerHeight="10dp"
+            android:longClickable="false"
+            android:listSelector="@android:color/transparent"
+            android:fadingEdge="none"/>
 
 </FrameLayout>
 

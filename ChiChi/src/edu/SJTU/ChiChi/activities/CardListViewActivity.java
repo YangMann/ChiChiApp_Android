@@ -1,26 +1,22 @@
 package edu.SJTU.ChiChi.activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.Display;
-import android.view.Surface;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.CardAdapter;
-import edu.SJTU.ChiChi.utils.DisplayUtil;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
-import edu.SJTU.ChiChi.views.TopCenterImageView;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -43,8 +39,9 @@ public class CardListViewActivity extends Activity {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_THUMB_URL = "thumb_url";
 
-    ListView list;
-    TopCenterImageView bg;
+    private ListView list;
+    private ImageView bg;
+    private ImageView bg_blurred;
     CardAdapter adapter0;
 
     @Override
@@ -58,11 +55,8 @@ public class CardListViewActivity extends Activity {
         }
 
         ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
-//        XMLParser parser = new XMLParser();
-//        String xml = parser.getXmlFromUrl(URL);
-//        Document doc = parser.getDomElement(xml);
-//        NodeList nl = doc.getElementsByTagName(KEY_DISH);
-        bg = (TopCenterImageView) findViewById(R.id.normal_image);
+        bg = (ImageView) findViewById(R.id.normal_image);
+        bg_blurred = (ImageView) findViewById(R.id.blurred_image);
         list = (ListView) findViewById(R.id.listView);
 
         list.setCacheColorHint(0);
@@ -100,23 +94,28 @@ public class CardListViewActivity extends Activity {
 //        for (int i = 0; i < nl.getLength(); i++) {
 
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int height;
-        if (display.getRotation() == Surface.ROTATION_0 || display.getRotation() == Surface.ROTATION_180)
-            height = size.y;
-        else
-            height = size.x;
-        View headerView = new View(this);
-        int headerheight = height-50 - (food == null ? 0 : food.name.length() * DisplayUtil.sp2px(getApplicationContext(), 36));
-        headerView.setLayoutParams(new AbsListView.LayoutParams(
-                AbsListView.LayoutParams.MATCH_PARENT,
-                headerheight));
+//        Display display = getWindowManager().getDefaultDisplay();
+//        Point size = new Point();
+//        display.getSize(size);
+//        int height;
+//        if (display.getRotation() == Surface.ROTATION_0 || display.getRotation() == Surface.ROTATION_180)
+//            height = size.y;
+//        else
+//            height = size.x;
+//        View headerView = new View(this);
+//        int headerheight = height-50 - (food == null ? 0 : food.name.length() * DisplayUtil.sp2px(getApplicationContext(), 36));
+//        headerView.setLayoutParams(new AbsListView.LayoutParams(
+//                AbsListView.LayoutParams.MATCH_PARENT,
+//                headerheight));
         //list.addHeaderView(headerView);
+
+        View footerView = new View(this);
+        footerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 0));
+        list.addFooterView(footerView);
 
         adapter0 = new CardAdapter(this, dishList, 0);
         list.setAdapter(adapter0);
+
 
         // Click event for single list row
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -128,8 +127,42 @@ public class CardListViewActivity extends Activity {
 
             }
         });
+
+        // Scroll listener for list
+        list.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            /**
+             * Listen to the list scroll.
+             */
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                // Calculate the ratio between the scroll amount and the list
+                // header weight to determinate the top picture alpha
+//                alpha = (float) -headerView.getTop() / (float) TOP_HEIGHT;
+//                // Apply a ceil
+//                if (alpha > 1) {
+//                    alpha = 1;
+//                }
+//
+//                // Apply on the ImageView if needed
+//                if (mSwitch.isChecked()) {
+//                    mBlurredImage.setAlpha(alpha);
+//                }
+
+                // Parallax effect : we apply half the scroll amount to our
+                // three views
+                Log.v("list.getTop()", String.valueOf(list.getTop()));
+                bg.setTop(list.getTop() / 2);
+                bg_blurred.setTop(list.getTop() / 2);
+
+            }
+        });
     }
-    
-    
 
 }
