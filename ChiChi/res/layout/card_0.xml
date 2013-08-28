@@ -38,11 +38,12 @@
                 android:textColor="#FFFFFF"
                 android:lineSpacingExtra="7sp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="-24dp"
                 android:shadowColor="#444444"
                 android:shadowDx="1"
                 android:shadowDy="1"
-                android:shadowRadius="1"/>
+                android:shadowRadius="1"
+                />
         <!--
     <edu.SJTU.ChiChi.views.VerticalTextView
             android:id="@+id/name"
