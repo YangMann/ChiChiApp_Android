@@ -36,7 +36,7 @@
                 android:ems="1"
                 android:textSize="36sp"
                 android:textColor="#FFFFFF"
-                android:lineSpacingExtra="8sp"
+                android:lineSpacingExtra="7sp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginRight="10dp"
                 android:shadowColor="#444444"
