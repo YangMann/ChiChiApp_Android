@@ -1,24 +1,20 @@
 package edu.SJTU.ChiChi.utils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
-import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.Surface;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.activities.CardListViewActivity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,7 +37,7 @@ public class CardAdapter extends BaseAdapter {
     public ImageLoader imageLoader;
 
     public CardAdapter(Activity a, ArrayList<HashMap<String, String>> d, int c) {
-    	activity = a;
+        activity = a;
         data = d;
         cardType = c;
         inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -94,6 +90,7 @@ public class CardAdapter extends BaseAdapter {
                 name.setTypeface(Sung);
                 */
                 name.setText(dish.get(CardListViewActivity.KEY_NAME));
+                name.setTypeface(Sung);
 
                 price.setTypeface(HelveticaU);
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
@@ -107,7 +104,7 @@ public class CardAdapter extends BaseAdapter {
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
 
 //                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
-                RelativeLayout namewrap = (RelativeLayout)vi.findViewById(R.id.name_wrap);
+                RelativeLayout namewrap = (RelativeLayout) vi.findViewById(R.id.name_wrap);
 
                 Display display = activity.getWindowManager().getDefaultDisplay();
                 Point size = new Point();
@@ -118,8 +115,8 @@ public class CardAdapter extends BaseAdapter {
                 else
                     height = size.x;
                 namewrap.setLayoutParams(new RelativeLayout.LayoutParams(
-                       AbsListView.LayoutParams.MATCH_PARENT,
-                       height));
+                        AbsListView.LayoutParams.MATCH_PARENT,
+                        height));
             }
         }
 
