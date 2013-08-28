@@ -23,6 +23,8 @@ import java.util.HashMap;
  */
 public class CardAdapter extends BaseAdapter {
 
+	public static int VerticalTextHeightFactor = 80;
+	
     private ArrayList<HashMap<String, String>> data;
     private int cardType;
     private static LayoutInflater inflater = null;
@@ -77,7 +79,7 @@ public class CardAdapter extends BaseAdapter {
                 TextView location = (TextView) vi.findViewById(R.id.location);
 
                 name.setColumnSpacing(2);
-                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * 80);
+                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * VerticalTextHeightFactor);
                 name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
                 name.setTypeface(Sung);
 

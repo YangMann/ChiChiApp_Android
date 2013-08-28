@@ -1,10 +1,17 @@
 package edu.SJTU.ChiChi.activities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.view.Display;
+import android.view.Surface;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
@@ -12,9 +19,6 @@ import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
 import edu.SJTU.ChiChi.views.TopCenterImageView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -56,9 +60,10 @@ public class CardListViewActivity extends Activity {
 //        Document doc = parser.getDomElement(xml);
 //        NodeList nl = doc.getElementsByTagName(KEY_DISH);
         bg = (TopCenterImageView) findViewById(R.id.normal_image);
-
+        list = (ListView) findViewById(R.id.listView);
+        
         FoodGenerator fg = new FoodGenerator();
-        FoodGenerator.Food food;
+        FoodGenerator.Food food=null;
         //如果json读取没错的话再做下一步操作
         if(fg.noerror()){
         	food = fg.getFood(0);
@@ -79,6 +84,7 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
                 imageLoader.DisplayImage(food.url, bg);
+                
             }
         }
         //TODO else... 如果json读取出错的话做点别的。。。
@@ -87,7 +93,21 @@ public class CardListViewActivity extends Activity {
 //        for (int i = 0; i < nl.getLength(); i++) {
 
 
-        list = (ListView) findViewById(R.id.listView);
+        Display display = getWindowManager().getDefaultDisplay(); 
+        Point size = new Point();
+        display.getSize(size);
+        int height;
+        if (display.getRotation() == Surface.ROTATION_0 || display.getRotation() == Surface.ROTATION_180)
+            height = size.y;
+        else 
+        	height = size.x;
+        View headerView = new View(this);
+        int headerheight = height - (food==null?0:food.name.length()*CardAdapter.VerticalTextHeightFactor);
+        headerView.setLayoutParams(new AbsListView.LayoutParams(
+        		AbsListView.LayoutParams.MATCH_PARENT, 
+        		headerheight));
+        list.addHeaderView(headerView);
+
         adapter0 = new CardAdapter(this, dishList, 0);
         list.setAdapter(adapter0);
 
@@ -102,4 +122,5 @@ public class CardListViewActivity extends Activity {
             }
         });
     }
+
 }
