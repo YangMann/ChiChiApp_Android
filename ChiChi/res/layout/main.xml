@@ -32,7 +32,8 @@
                 android:layout_marginRight="10dp"
                 android:dividerHeight="10dp"
                 android:footerDividersEnabled="true"
-                android:longClickable="false"/>
+                android:longClickable="false"
+                android:listSelector="@android:color/transparent"/>
 
     </LinearLayout>
 
