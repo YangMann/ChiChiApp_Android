@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class FoodGenerator {
     String json_url = "http://wl.ibox.sjtu.edu.cn/w/8207/food.json";
-    JSONArray json=null;
+    JSONArray json = null;
     String test =
             "[" +
                     "{" +
@@ -29,7 +29,7 @@ public class FoodGenerator {
         String json_string = JSONParser.getJsonFromUrl(json_url);
         //String json_string = test;
         try {
-        	if(json_string==null) return;
+            if (json_string == null) return;
             json = new JSONArray(json_string);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -57,10 +57,9 @@ public class FoodGenerator {
             this.description = fd.has("description") ? fd.getString("description") : "";
         }
     }
-    
-    public boolean noerror() 
-    {
-    	return json!=null;
+
+    public boolean noerror() {
+        return json != null;
     }
 
     public int getBuildingCount() {

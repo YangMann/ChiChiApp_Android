@@ -3,6 +3,7 @@ package edu.SJTU.ChiChi.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,17 +76,23 @@ public class CardAdapter extends BaseAdapter {
                 TextView price = (TextView) vi.findViewById(R.id.price);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
                 TextView location = (TextView) vi.findViewById(R.id.location);
+                TextView description = (TextView) vi.findViewById(R.id.description);
 
-                name.setColumnSpacing(2);
+                name.setColumnSpacing(1);
+                Log.v("KEY_NAME.length", String.valueOf(dish.get(CardListViewActivity.KEY_NAME).length()));
                 name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * 80);
                 name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
                 name.setTypeface(Sung);
 
                 price.setTypeface(HelveticaU);
-
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
+
                 taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
+
                 location.setText(dish.get(CardListViewActivity.KEY_LOCATION));
+
+                description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
+
 //                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
             }
         }
