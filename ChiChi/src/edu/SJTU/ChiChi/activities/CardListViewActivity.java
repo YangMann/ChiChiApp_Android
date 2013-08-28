@@ -1,7 +1,11 @@
 package edu.SJTU.ChiChi.activities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -13,12 +17,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.CardAdapter;
+import edu.SJTU.ChiChi.utils.DisplayUtil;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
 import edu.SJTU.ChiChi.views.TopCenterImageView;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -107,11 +109,11 @@ public class CardListViewActivity extends Activity {
         else
             height = size.x;
         View headerView = new View(this);
-        int headerheight = height - (food == null ? 0 : food.name.length() * CardAdapter.VerticalTextHeightFactor);
+        int headerheight = height-50 - (food == null ? 0 : food.name.length() * DisplayUtil.sp2px(getApplicationContext(), 36));
         headerView.setLayoutParams(new AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT,
                 headerheight));
-        list.addHeaderView(headerView);
+        //list.addHeaderView(headerView);
 
         adapter0 = new CardAdapter(this, dishList, 0);
         list.setAdapter(adapter0);
@@ -127,5 +129,7 @@ public class CardListViewActivity extends Activity {
             }
         });
     }
+    
+    
 
 }

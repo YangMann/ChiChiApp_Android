@@ -1,5 +1,6 @@
 package edu.SJTU.ChiChi.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -17,6 +18,8 @@ public class VerticalTextView extends TextView {
     char[][] matrix;
     String columnSpacing = " ";
     int height;
+    
+    public static int HEIGHT_FACTOR=60;
 
     public VerticalTextView(Context context) {
         super(context);
@@ -58,8 +61,20 @@ public class VerticalTextView extends TextView {
         this.setText(verticalText);
 
     }
-
-    private int[] measureMatrix(String text) {
+    
+    @SuppressLint("NewApi")
+    public void setLength(int length)
+    {
+        int paddingTop = this.getPaddingTop();
+        int paddingBottom = this.getPaddingBottom();
+        double lineSpacingMultiplier = this.getLineSpacingMultiplier();
+        double textSize = this.getTextSize();
+    	int height =  (length * (int)(lineSpacingMultiplier + textSize + 3)+paddingTop+paddingBottom);
+    	setHeight(height);
+    }
+    
+    @SuppressLint("NewApi")
+	private int[] measureMatrix(String text) {
         // int height = this.getHeight();
         int textLength = text.length();
 
