@@ -26,6 +26,9 @@ public class FoodGenerator {
                     "]";
 
     public FoodGenerator() {
+    }
+    
+    public void fetchjson(){
         String json_string = JSONParser.getJsonFromUrl(json_url);
         //String json_string = test;
         try {
