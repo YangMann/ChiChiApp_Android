@@ -2,15 +2,16 @@ package edu.SJTU.ChiChi.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
+import edu.SJTU.ChiChi.utils.Blur;
 import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
@@ -39,9 +40,15 @@ public class CardListViewActivity extends Activity {
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_THUMB_URL = "thumb_url";
 
+    public static final double PARALLAX_RATIO = 2.5;
+    public static final int MAX_SHIFT = 500;
+    public static final int BLUR_RADIUS = 16;
+
     private ListView list;
     private ImageView bg;
     private ImageView bg_blurred;
+    private Bitmap blurred_img;
+    private float blur_alpha;
     CardAdapter adapter0;
 
     @Override
@@ -85,6 +92,13 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
                 imageLoader.DisplayImage(food.url, bg);
+                blurred_img = Blur.fastBlur(this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        bg_blurred.setImageBitmap(blurred_img);
+                    }
+                });
 
             }
         }
@@ -142,24 +156,19 @@ public class CardListViewActivity extends Activity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // Calculate the ratio between the scroll amount and the list
-                // header weight to determinate the top picture alpha
-//                alpha = (float) -headerView.getTop() / (float) TOP_HEIGHT;
-//                // Apply a ceil
-//                if (alpha > 1) {
-//                    alpha = 1;
-//                }
-//
-//                // Apply on the ImageView if needed
-//                if (mSwitch.isChecked()) {
-//                    mBlurredImage.setAlpha(alpha);
-//                }
-
                 // Parallax effect : we apply half the scroll amount to our
-                // three views
-                Log.v("list.getTop()", String.valueOf(list.getTop()));
-                bg.setTop(list.getTop() / 2);
-                bg_blurred.setTop(list.getTop() / 2);
+                // two views
+                if (list.getChildAt(0) != null) {
+                    if (-list.getChildAt(0).getTop() < MAX_SHIFT) {
+                        blur_alpha = (float) -list.getChildAt(0).getTop() / (float) MAX_SHIFT;
+                        if (blur_alpha > 1) {
+                            blur_alpha = 1;
+                        }
+                        bg_blurred.setAlpha(blur_alpha);
+                        bg.setTop((int) Math.round(list.getChildAt(0).getTop() / PARALLAX_RATIO));
+                        bg_blurred.setTop((int) Math.round(list.getChildAt(0).getTop() / PARALLAX_RATIO));
+                    }
+                }
 
             }
         });
