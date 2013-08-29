@@ -5,7 +5,6 @@ package edu.SJTU.ChiChi.utils;
  * User: JeffreyZhang
  * Date: 13-7-7
  * Time: 下午11:01
- * To change this template use File | Settings | File Templates.
  */
 
 import android.annotation.SuppressLint;

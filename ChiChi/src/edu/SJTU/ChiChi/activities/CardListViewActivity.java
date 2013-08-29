@@ -1,15 +1,11 @@
 package edu.SJTU.ChiChi.activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -21,16 +17,18 @@ import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Created with IntelliJ IDEA.
  * User: JeffreyZhang
  * Date: 13-8-23
  * Time: 下午4:05
  */
-@SuppressLint({ "NewApi", "HandlerLeak" })
+@SuppressLint({"NewApi", "HandlerLeak"})
 public class CardListViewActivity extends Activity {
-    //    private String URL = "";
-    // XML node keys
+    // JSON node keys
 //    public static final String KEY_DISH = "dish"; // parent node
 //    public static final String KEY_ID = "id";
     public static final String KEY_NAME = "name";
@@ -41,13 +39,13 @@ public class CardListViewActivity extends Activity {
     public static final String KEY_TASTE = "taste";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_THUMB_URL = "thumb_url";
-    
+
     public static final int MSG_JSON_FETCHED = 0;
     public static final int MSG_JSON_FAILED = 1;
     public static final int MSG_SPLASH_FINISHED = 2;
 
     private static final int SPLASH_TIME = 0;
-        public static final double PARALLAX_RATIO = 2.5;
+    public static final double PARALLAX_RATIO = 2.5;
     public static final int MAX_SHIFT = 500;
     public static final int BLUR_RADIUS = 20;
 
@@ -57,9 +55,9 @@ public class CardListViewActivity extends Activity {
     private Bitmap blurred_img;
     private float blur_alpha;
     CardAdapter adapter0;
-    
+
     ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
-    
+
     MainHandler mHandler = new MainHandler();
     FoodGenerator fg = new FoodGenerator();
 
@@ -90,7 +88,7 @@ public class CardListViewActivity extends Activity {
 
             }
         });
-     // Scroll listener for list
+        // Scroll listener for list
         list.setOnScrollListener(new AbsListView.OnScrollListener() {
 
             @Override
@@ -124,32 +122,31 @@ public class CardListViewActivity extends Activity {
         new Thread(new FetchJSON()).start();
         new Thread(new DelayRun(SPLASH_TIME, MSG_SPLASH_FINISHED)).start();
     }
-    
-    class MainHandler extends Handler{
-    	boolean json_fetched = false;
-    	boolean splash_finished = false;
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			switch (msg.what)
-			{
-			case MSG_JSON_FETCHED:
-				json_fetched = true;
-				loadData();
-				break;
-			case MSG_JSON_FAILED:
-				break;
-			case MSG_SPLASH_FINISHED:
-				splash_finished = true;
-				loadData();
-				break;
-			}
-		}
-		
-		private void loadData()
-		{
-			if(!json_fetched || !splash_finished) return;
-			
+
+    class MainHandler extends Handler {
+        boolean json_fetched = false;
+        boolean splash_finished = false;
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_JSON_FETCHED:
+                    json_fetched = true;
+                    loadData();
+                    break;
+                case MSG_JSON_FAILED:
+                    break;
+                case MSG_SPLASH_FINISHED:
+                    splash_finished = true;
+                    loadData();
+                    break;
+            }
+        }
+
+        private void loadData() {
+            if (!json_fetched || !splash_finished) return;
+
             FoodGenerator.Food foods[] = null;
             foods = fg.getFoods(0);
             for (int i = 0; i < 1; i++) {
@@ -177,52 +174,50 @@ public class CardListViewActivity extends Activity {
             }
             adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
             list.setAdapter(adapter0);
-		}
-    	
-    }
-    
-    class FetchJSON implements Runnable{
+        }
 
-		@Override
-		public void run() {
-	        fg.fetchjson();
-	        Message msg = new Message();
-	        if(fg.noerror())
-	        	msg.what = MSG_JSON_FETCHED;
-	        else
-	        	msg.what = MSG_JSON_FAILED;
-	        mHandler.sendMessage(msg);
-		}
     }
-    
-    class DelayRun implements Runnable{
-    	int delaytime;
-    	int msgwhat;
-    	
-    	public DelayRun(int dtime, int msg)
-    	{
-    		delaytime = dtime;
-    		msgwhat = msg;
-    	}
-    	
-    	public DelayRun(int dtime)
-    	{
-    		this(dtime, -1);
-    	}
 
-		@Override
-		public void run() {
-			try {
-				Thread.sleep(delaytime);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (msgwhat!=-1){
-				Message msg = new Message();
-				msg.what = msgwhat;
-		        mHandler.sendMessage(msg);
-			}
-		}
+    class FetchJSON implements Runnable {
+
+        @Override
+        public void run() {
+            fg.fetchjson();
+            Message msg = new Message();
+            if (fg.noerror())
+                msg.what = MSG_JSON_FETCHED;
+            else
+                msg.what = MSG_JSON_FAILED;
+            mHandler.sendMessage(msg);
+        }
+    }
+
+    class DelayRun implements Runnable {
+        int delaytime;
+        int msgwhat;
+
+        public DelayRun(int dtime, int msg) {
+            delaytime = dtime;
+            msgwhat = msg;
+        }
+
+        public DelayRun(int dtime) {
+            this(dtime, -1);
+        }
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(delaytime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            if (msgwhat != -1) {
+                Message msg = new Message();
+                msg.what = msgwhat;
+                mHandler.sendMessage(msg);
+            }
+        }
     }
 
 }
