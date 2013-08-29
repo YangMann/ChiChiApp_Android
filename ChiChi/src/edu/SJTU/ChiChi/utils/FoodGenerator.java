@@ -100,4 +100,7 @@ public class FoodGenerator {
     	if(res[2]==null) return null;
     	return res;
     }
+    public Food randomFood(){
+    	return getFood(Math.abs(new Random().nextInt())%getBuildingCount());
+    }
 }

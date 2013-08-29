@@ -147,23 +147,23 @@ public class CardListViewActivity extends Activity {
         private void loadData() {
             if (!json_fetched || !splash_finished) return;
 
-            FoodGenerator.Food foods[] = null;
-            foods = fg.getFoods(0);
+            FoodGenerator.Food food = null;
+            food = fg.randomFood();
             for (int i = 0; i < 1; i++) {
                 HashMap<String, String> map = new HashMap<String, String>();
-                map.put(KEY_NAME, foods[1].name);
-                map.put(KEY_GENRE, foods[1].genre);
-                map.put(KEY_BUILDING, foods[1].building);
-                map.put(KEY_RESTAURANT, foods[1].restaurant);
-                map.put(KEY_PRICE, foods[1].price);
-                map.put(KEY_TASTE, foods[1].taste);
-                map.put(KEY_DESCRIPTION, foods[1].description);
-                map.put(KEY_THUMB_URL, foods[1].url);
+                map.put(KEY_NAME, food.name);
+                map.put(KEY_GENRE, food.genre);
+                map.put(KEY_BUILDING, food.building);
+                map.put(KEY_RESTAURANT, food.restaurant);
+                map.put(KEY_PRICE, food.price);
+                map.put(KEY_TASTE, food.taste);
+                map.put(KEY_DESCRIPTION, food.description);
+                map.put(KEY_THUMB_URL, food.url);
 
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
-                imageLoader.DisplayImage(foods[1].url, bg);
-                blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(foods[1].url), BLUR_RADIUS);
+                imageLoader.DisplayImage(food.url, bg);
+                blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
