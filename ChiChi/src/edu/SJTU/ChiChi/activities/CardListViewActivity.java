@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -43,7 +42,7 @@ public class CardListViewActivity extends Activity {
 
     public static final double PARALLAX_RATIO = 2.5;
     public static final int MAX_SHIFT = 500;
-    public static final int BLUR_RADIUS = 16;
+    public static final int BLUR_RADIUS = 20;
 
     private ListView list;
     private ImageView bg;
@@ -92,8 +91,8 @@ public class CardListViewActivity extends Activity {
                 // adding HashList to ArrayList
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(this.getApplicationContext());
-                imageLoader.DisplayImage(food.url, bg);
-                blurred_img = Blur.fastBlur(this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
+                imageLoader.DisplayImage(foods[1].url, bg);
+                blurred_img = Blur.fastBlur(this, imageLoader.getBitmap(foods[1].url), BLUR_RADIUS);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
