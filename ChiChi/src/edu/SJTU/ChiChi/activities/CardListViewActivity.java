@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -70,23 +71,23 @@ public class CardListViewActivity extends Activity {
         list.setSelected(false);
 
         FoodGenerator fg = new FoodGenerator();
-        FoodGenerator.Food food = null;
         //如果json读取没错的话再做下一步操作
         if (fg.noerror()) {
-            food = fg.getFood(0);
+            FoodGenerator.Food foods[] = null;
+            foods = fg.getFoods(0);
             for (int i = 0; i < 1; i++) {
                 HashMap<String, String> map = new HashMap<String, String>();
 //                Element e = (Element) nl.item(i);
                 // adding each child node to HashMap key => value
-//                map.put(KEY_ID, food.getValue(e, KEY_ID));
-                map.put(KEY_NAME, food.name);
-                map.put(KEY_GENRE, food.genre);
-                map.put(KEY_BUILDING, food.building);
-                map.put(KEY_RESTAURANT, food.restaurant);
-                map.put(KEY_PRICE, food.price);
-                map.put(KEY_TASTE, food.taste);
-                map.put(KEY_DESCRIPTION, food.description);
-                map.put(KEY_THUMB_URL, food.url);
+//                map.put(KEY_ID, foods[1].getValue(e, KEY_ID));
+                map.put(KEY_NAME, foods[1].name);
+                map.put(KEY_GENRE, foods[1].genre);
+                map.put(KEY_BUILDING, foods[1].building);
+                map.put(KEY_RESTAURANT, foods[1].restaurant);
+                map.put(KEY_PRICE, foods[1].price);
+                map.put(KEY_TASTE, foods[1].taste);
+                map.put(KEY_DESCRIPTION, foods[1].description);
+                map.put(KEY_THUMB_URL, foods[1].url);
 
                 // adding HashList to ArrayList
                 dishList.add(map);
@@ -107,21 +108,6 @@ public class CardListViewActivity extends Activity {
         // looping through all dish nodes <dish>
 //        for (int i = 0; i < nl.getLength(); i++) {
 
-
-//        Display display = getWindowManager().getDefaultDisplay();
-//        Point size = new Point();
-//        display.getSize(size);
-//        int height;
-//        if (display.getRotation() == Surface.ROTATION_0 || display.getRotation() == Surface.ROTATION_180)
-//            height = size.y;
-//        else
-//            height = size.x;
-//        View headerView = new View(this);
-//        int headerheight = height-50 - (food == null ? 0 : food.name.length() * DisplayUtil.sp2px(getApplicationContext(), 36));
-//        headerView.setLayoutParams(new AbsListView.LayoutParams(
-//                AbsListView.LayoutParams.MATCH_PARENT,
-//                headerheight));
-        //list.addHeaderView(headerView);
 
         View footerView = new View(this);
         footerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 0));
