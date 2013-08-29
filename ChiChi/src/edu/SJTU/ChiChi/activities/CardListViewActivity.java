@@ -5,17 +5,18 @@ import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.StrictMode;
-import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
+import edu.SJTU.ChiChi.utils.Blur;
 import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
@@ -45,11 +46,16 @@ public class CardListViewActivity extends Activity {
     public static final int MSG_JSON_FAILED = 1;
     public static final int MSG_SPLASH_FINISHED = 2;
 
-    private static final int SPLASH_TIME = 300;
-    
+    private static final int SPLASH_TIME = 0;
+        public static final double PARALLAX_RATIO = 2.5;
+    public static final int MAX_SHIFT = 500;
+    public static final int BLUR_RADIUS = 20;
+
     private ListView list;
     private ImageView bg;
     private ImageView bg_blurred;
+    private Bitmap blurred_img;
+    private float blur_alpha;
     CardAdapter adapter0;
     
     ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
@@ -68,7 +74,6 @@ public class CardListViewActivity extends Activity {
 
         list.setCacheColorHint(0);
         list.setSelected(false);
-        
 
 
         View footerView = new View(this);
@@ -90,6 +95,7 @@ public class CardListViewActivity extends Activity {
 
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+
             }
 
             /**
@@ -98,33 +104,21 @@ public class CardListViewActivity extends Activity {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
-                // Calculate the ratio between the scroll amount and the list
-                // header weight to determinate the top picture alpha
-//                alpha = (float) -headerView.getTop() / (float) TOP_HEIGHT;
-//                // Apply a ceil
-//                if (alpha > 1) {
-//                    alpha = 1;
-//                }
-//
-//                // Apply on the ImageView if needed
-//                if (mSwitch.isChecked()) {
-//                    mBlurredImage.setAlpha(alpha);
-//                }totalItemCount
-
                 // Parallax effect : we apply half the scroll amount to our
-                // three views
-            	if(view.getChildAt(0)!=null){
-                	Log.v("chichidebug", "top: "+String.valueOf(view.getChildAt(0).getTop()));
-            	}
-            	Log.v("chichidebug", "getFirstVisiblePosition: "+String.valueOf(view.getFirstVisiblePosition()));
-            	Log.v("chichidebug", "firstVisibleItem: "+String.valueOf(firstVisibleItem));
-            	Log.v("chichidebug", "visibleItemCount: "+String.valueOf(visibleItemCount));
-            	Log.v("chichidebug", "totalItemCount: "+String.valueOf(totalItemCount));
-                bg.setTop(list.getTop() / 2);
-                bg_blurred.setTop(list.getTop() / 2);
+                // two views
+                if (list.getChildAt(0) != null) {
+                    if (-list.getChildAt(0).getTop() < MAX_SHIFT) {
+                        blur_alpha = (float) -list.getChildAt(0).getTop() / (float) MAX_SHIFT;
+                        if (blur_alpha > 1) {
+                            blur_alpha = 1;
+                        }
+                        bg_blurred.setAlpha(blur_alpha);
+                        bg.setTop((int) Math.round(list.getChildAt(0).getTop() / PARALLAX_RATIO));
+                        bg_blurred.setTop((int) Math.round(list.getChildAt(0).getTop() / PARALLAX_RATIO));
+                    }
+                }
 
             }
-            
         });
 
         new Thread(new FetchJSON()).start();
@@ -172,6 +166,13 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
                 imageLoader.DisplayImage(foods[1].url, bg);
+                blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(foods[1].url), BLUR_RADIUS);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        bg_blurred.setImageBitmap(blurred_img);
+                    }
+                });
 
             }
             adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);

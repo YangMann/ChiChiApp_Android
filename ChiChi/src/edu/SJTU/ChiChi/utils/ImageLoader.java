@@ -1,13 +1,11 @@
 package edu.SJTU.ChiChi.utils;
 
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.widget.ImageView;
-import edu.SJTU.ChiChi.R;
-
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Collections;
@@ -15,6 +13,14 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Log;
+import android.widget.ImageView;
+import edu.SJTU.ChiChi.R;
 
 /**
  * Created with IntelliJ IDEA.
@@ -52,32 +58,30 @@ public class ImageLoader {
         executorService.submit(new PhotosLoader(p));
     }
 
-    private Bitmap getBitmap(String url) {
+    public Bitmap getBitmap(String url) {
         File f = fileCache.getFile(url);
 
         //from SD cache
         Bitmap b = decodeFile(f);
-        if (b != null)
-            return b;
-
+        if (b != null) return b;
         //from web
-        try {
-            Bitmap bitmap = null;
-            URL imageUrl = new URL(url);
-            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-            conn.setConnectTimeout(30000);
-            conn.setReadTimeout(30000);
-            conn.setInstanceFollowRedirects(true);
-            InputStream is = conn.getInputStream();
-            OutputStream os = new FileOutputStream(f);
-            ImageUtils.CopyStream(is, os);
-            os.close();
-            bitmap = decodeFile(f);
-            return bitmap;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return null;
-        }
+	    try {
+	            Bitmap bitmap = null;
+	            URL imageUrl = new URL(url);
+	            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+	            conn.setConnectTimeout(30000);
+	            conn.setReadTimeout(30000);
+	            conn.setInstanceFollowRedirects(true);
+	            InputStream is = conn.getInputStream();
+	            OutputStream os = new FileOutputStream(f);
+	            ImageUtils.CopyStream(is, os);
+	            os.close();
+	            bitmap = decodeFile(f);
+	            return bitmap;
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	            return b;
+	        }
     }
 
     //decodes image and scales it to reduce memory consumption
