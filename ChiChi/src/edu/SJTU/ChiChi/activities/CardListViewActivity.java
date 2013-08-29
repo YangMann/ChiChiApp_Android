@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.widget.*;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.Blur;
 import edu.SJTU.ChiChi.utils.CardAdapter;
@@ -55,6 +52,9 @@ public class CardListViewActivity extends Activity {
     private Bitmap blurred_img;
     private float blur_alpha;
     CardAdapter adapter0;
+
+    int screenWidth;
+    FrameLayout main_wrap, main_wrap1;
 
     ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
 

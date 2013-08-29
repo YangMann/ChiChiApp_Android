@@ -160,26 +160,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:text="鲜香咸"
+                    android:textSize="40sp"
+                    android:layout_alignBottom="@+id/genre"/>
+
+            <edu.SJTU.ChiChi.views.VerticalTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="徽菜"
+                    android:id="@+id/genre"
+                    android:textSize="60sp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="70dp"
+                    android:lineSpacingMultiplier="1.2"/>
 
         </RelativeLayout>
-        <!--
-                <RelativeLayout
-                        android:id="@+id/row_wrap_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="#50333333"
-                        android:padding="10dp"
-                        android:minHeight="100dp"
-                        android:layout_marginTop="10dp">
 
-
-
-                </RelativeLayout>
-         -->
         <RelativeLayout
-                android:id="@+id/row_wrap_2"
+                android:id="@+id/row_wrap_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -193,8 +192,30 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"/>
 
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#50333333"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/row_wrap_2"
+                android:gravity="center_vertical|center_horizontal">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ad"
+                    android:text="欢迎加入吃吃！发送短信到18616800000"
+                    android:textColor="#FFFFFF"
+                    android:linksClickable="true"
+                    android:autoLink="phone|email|web"
+                    />
         </RelativeLayout>
 
     </LinearLayout>

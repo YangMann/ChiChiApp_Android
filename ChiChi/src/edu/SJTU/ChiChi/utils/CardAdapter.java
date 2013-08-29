@@ -78,25 +78,19 @@ public class CardAdapter extends BaseAdapter {
 //                ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
                 TextView price = (TextView) vi.findViewById(R.id.price);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
+                TextView genre = (TextView) vi.findViewById(R.id.genre);
                 TextView building = (TextView) vi.findViewById(R.id.building);
                 TextView restaurant = (TextView) vi.findViewById(R.id.restaurant);
                 TextView description = (TextView) vi.findViewById(R.id.description);
 
-                /*
-                name.setColumnSpacing(1);
-                name.setLength(dish.get(CardListViewActivity.KEY_NAME).length());
-                name.setHeight(dish.get(CardListViewActivity.KEY_NAME).length() * VerticalTextView.HEIGHT_FACTOR);
-                name.setVerticalText(dish.get(CardListViewActivity.KEY_NAME), true);
-                name.setTypeface(Sung);
-                */
                 name.setText(dish.get(CardListViewActivity.KEY_NAME));
                 name.setTypeface(Sung);
 
                 price.setTypeface(HelveticaU);
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
 
-                taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
-
+//                taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
+                genre.setTypeface(Sung);
                 building.setText(dish.get(CardListViewActivity.KEY_BUILDING));
 
                 restaurant.setText(dish.get(CardListViewActivity.KEY_RESTAURANT));
@@ -104,7 +98,7 @@ public class CardAdapter extends BaseAdapter {
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
 
 //                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
-                RelativeLayout namewrap = (RelativeLayout) vi.findViewById(R.id.name_wrap);
+                RelativeLayout nameWrap = (RelativeLayout) vi.findViewById(R.id.name_wrap);
 
                 Display display = activity.getWindowManager().getDefaultDisplay();
                 Point size = new Point();
@@ -114,7 +108,7 @@ public class CardAdapter extends BaseAdapter {
                     height = size.y;
                 else
                     height = size.x;
-                namewrap.setLayoutParams(new RelativeLayout.LayoutParams(
+                nameWrap.setLayoutParams(new RelativeLayout.LayoutParams(
                         AbsListView.LayoutParams.MATCH_PARENT,
                         height));
             }
