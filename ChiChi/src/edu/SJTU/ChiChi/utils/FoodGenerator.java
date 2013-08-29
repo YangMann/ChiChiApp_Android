@@ -85,4 +85,16 @@ public class FoodGenerator {
         }
         return null;
     }
+    
+    public Food[] getFoods(int bid){
+    	Food[] res = new Food[3];
+    	int bc = getBuildingCount();
+    	res[0] = getFood((bid+bc-1)%bc);
+    	if(res[0]==null) return null;
+    	res[1] = getFood(bid);
+    	if(res[1]==null) return null;
+    	res[2] = getFood((bid+bc+1)%bc);
+    	if(res[2]==null) return null;
+    	return res;
+    }
 }
