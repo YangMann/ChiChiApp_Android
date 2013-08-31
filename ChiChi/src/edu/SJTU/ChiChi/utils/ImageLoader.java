@@ -22,21 +22,14 @@ import android.util.Log;
 import android.widget.ImageView;
 import edu.SJTU.ChiChi.R;
 
-/**
- * Created with IntelliJ IDEA.
- * User: JeffreyZhang
- * Date: 13-8-23
- * Time: 下午4:10
- */
 public class ImageLoader {
 
-    MemoryCache memoryCache = new MemoryCache();
-    FileCache fileCache;
+	BitmapCache mCache;
     private Map<ImageView, String> imageViews = Collections.synchronizedMap(new WeakHashMap<ImageView, String>());
     ExecutorService executorService;
 
     public ImageLoader(Context context) {
-        fileCache = new FileCache(context);
+    	mCache = new BitmapCache(context);
         executorService = Executors.newFixedThreadPool(5);
     }
 
@@ -44,7 +37,7 @@ public class ImageLoader {
 
     public void DisplayImage(String url, ImageView imageView) {
         imageViews.put(imageView, url);
-        Bitmap bitmap = memoryCache.get(url);
+        Bitmap bitmap = mCache.get(url);
         if (bitmap != null)
             imageView.setImageBitmap(bitmap);
         else {
@@ -59,16 +52,35 @@ public class ImageLoader {
     }
 
     public Bitmap getBitmap(String url) {
-        File f = fileCache.getFile(url);
-
         //from SD cache
-        Bitmap b = decodeFile(f);
+        Bitmap b = mCache.get(url);
         if (b != null) return b;
         //from web
 	    try {
 	            Bitmap bitmap = null;
 	            URL imageUrl = new URL(url);
-	            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
+
+				HttpURLConnection conn = (HttpURLConnection) imageUrl
+						.openConnection();
+				conn.setDoInput(true);
+				conn.connect();
+				InputStream is = conn.getInputStream();
+				int length = (int) conn.getContentLength();
+				if (length != -1) {
+					byte[] imgData = new byte[length];
+					byte[] buffer = new byte[512];
+					int readLen = 0;
+					int destPos = 0;
+					while ((readLen = is.read(buffer)) > 0) {
+						System.arraycopy(buffer, 0, imgData, destPos, readLen);
+						destPos += readLen;
+					}
+					bitmap = BitmapFactory.decodeByteArray(imgData, 0,
+							imgData.length);
+				}
+				return bitmap;
+					
+/*	            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
 	            conn.setConnectTimeout(30000);
 	            conn.setReadTimeout(30000);
 	            conn.setInstanceFollowRedirects(true);
@@ -78,9 +90,9 @@ public class ImageLoader {
 	            os.close();
 	            bitmap = decodeFile(f);
 	            return bitmap;
-	        } catch (Exception ex) {
+*/	        } catch (Exception ex) {
 	            ex.printStackTrace();
-	            return b;
+	            return null;
 	        }
     }
 
@@ -136,7 +148,7 @@ public class ImageLoader {
             if (imageViewReused(photoToLoad))
                 return;
             Bitmap bmp = getBitmap(photoToLoad.url);
-            memoryCache.put(photoToLoad.url, bmp);
+            mCache.put(photoToLoad.url, bmp);
             if (imageViewReused(photoToLoad))
                 return;
             BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
@@ -173,8 +185,6 @@ public class ImageLoader {
     }
 
     public void clearCache() {
-        memoryCache.clear();
-        fileCache.clear();
     }
 
 }

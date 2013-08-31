@@ -1,21 +1,26 @@
 package edu.SJTU.ChiChi.activities;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.StrictMode;
 import android.view.View;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.Blur;
 import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,6 +70,11 @@ public class CardListViewActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
 
         bg = (ImageView) findViewById(R.id.normal_image);
         bg_blurred = (ImageView) findViewById(R.id.blurred_image);
@@ -163,14 +173,8 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
                 imageLoader.DisplayImage(food.url, bg);
-                blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        bg_blurred.setImageBitmap(blurred_img);
-                    }
-                });
-
+                //blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
+                //bg_blurred.setImageBitmap(blurred_img);
             }
             adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
             list.setAdapter(adapter0);
