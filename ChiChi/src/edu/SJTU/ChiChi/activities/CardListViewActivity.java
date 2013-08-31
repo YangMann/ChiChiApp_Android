@@ -59,9 +59,6 @@ public class CardListViewActivity extends Activity {
     private float blur_alpha;
     CardAdapter adapter0;
 
-    int screenWidth;
-    FrameLayout main_wrap, main_wrap1;
-
     ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
 
     MainHandler mHandler = new MainHandler();
