@@ -45,6 +45,7 @@ public class CardListViewActivity extends Activity {
     public static final int MSG_JSON_FETCHED = 0;
     public static final int MSG_JSON_FAILED = 1;
     public static final int MSG_SPLASH_FINISHED = 2;
+    public static final int MSG_BLUR_FINISHED = 3;
 
     private static final int SPLASH_TIME = 0;
     public static final double PARALLAX_RATIO = 2.5;
@@ -151,6 +152,8 @@ public class CardListViewActivity extends Activity {
                     splash_finished = true;
                     loadData();
                     break;
+                case MSG_BLUR_FINISHED:
+                    showblur();
             }
         }
 
@@ -173,11 +176,15 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
                 imageLoader.DisplayImage(food.url, bg);
-                //blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
-                //bg_blurred.setImageBitmap(blurred_img);
+
+                new Thread(new BlurInBackground(imageLoader, food)).start();
             }
             adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
             list.setAdapter(adapter0);
+        }
+
+        private void showblur() {
+            bg_blurred.setImageBitmap(blurred_img);
         }
 
     }
@@ -221,6 +228,24 @@ public class CardListViewActivity extends Activity {
                 msg.what = msgwhat;
                 mHandler.sendMessage(msg);
             }
+        }
+    }
+
+    class BlurInBackground implements Runnable {
+        FoodGenerator.Food food;
+        ImageLoader imageLoader;
+
+        public BlurInBackground(ImageLoader imageloader, FoodGenerator.Food food){
+            this.imageLoader = imageloader;
+            this.food = food;
+        }
+
+        @Override
+        public void run(){
+            blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
+            Message msg = new Message();
+            msg.what = MSG_BLUR_FINISHED;
+            mHandler.sendMessage(msg);
         }
     }
 

@@ -56,73 +56,48 @@ public class ImageLoader {
         Bitmap b = mCache.get(url);
         if (b != null) return b;
         //from web
-	    try {
-	            Bitmap bitmap = null;
-	            URL imageUrl = new URL(url);
-
-				HttpURLConnection conn = (HttpURLConnection) imageUrl
-						.openConnection();
-				conn.setDoInput(true);
-				conn.connect();
-				InputStream is = conn.getInputStream();
-				int length = (int) conn.getContentLength();
-				if (length != -1) {
-					byte[] imgData = new byte[length];
-					byte[] buffer = new byte[512];
-					int readLen = 0;
-					int destPos = 0;
-					while ((readLen = is.read(buffer)) > 0) {
-						System.arraycopy(buffer, 0, imgData, destPos, readLen);
-						destPos += readLen;
-					}
-					bitmap = BitmapFactory.decodeByteArray(imgData, 0,
-							imgData.length);
-				}
-				return bitmap;
-					
-/*	            HttpURLConnection conn = (HttpURLConnection) imageUrl.openConnection();
-	            conn.setConnectTimeout(30000);
-	            conn.setReadTimeout(30000);
-	            conn.setInstanceFollowRedirects(true);
-	            InputStream is = conn.getInputStream();
-	            OutputStream os = new FileOutputStream(f);
-	            ImageUtils.CopyStream(is, os);
-	            os.close();
-	            bitmap = decodeFile(f);
-	            return bitmap;
-*/	        } catch (Exception ex) {
-	            ex.printStackTrace();
-	            return null;
-	        }
+        b = downloadBitmap(url);
+        mCache.put(url, b);
+        return b;
     }
 
-    //decodes image and scales it to reduce memory consumption
-    private Bitmap decodeFile(File f) {
+    public Bitmap preloadBitmap(String url) {
+        Bitmap b = mCache.get(url);
+        if (b != null) return b;
+        b = downloadBitmap(url);
+        mCache.putOnlyDisk(url, b);
+        return b;
+    }
+
+    public Bitmap downloadBitmap(String url) {
         try {
-            //decode image size
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+            Bitmap bitmap = null;
+            URL imageUrl = new URL(url);
 
-            //Find the correct scale value. It should be the power of 2.
-            final int REQUIRED_SIZE = 1024;
-            int width_tmp = o.outWidth, height_tmp = o.outHeight;
-            int scale = 1;
-            while (true) {
-                if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE)
-                    break;
-                width_tmp /= 2;
-                height_tmp /= 2;
-                scale *= 2;
+            HttpURLConnection conn = (HttpURLConnection) imageUrl
+                    .openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            int length = (int) conn.getContentLength();
+            if (length != -1) {
+                byte[] imgData = new byte[length];
+                byte[] buffer = new byte[512];
+                int readLen = 0;
+                int destPos = 0;
+                while ((readLen = is.read(buffer)) > 0) {
+                    System.arraycopy(buffer, 0, imgData, destPos, readLen);
+                    destPos += readLen;
+                }
+                bitmap = BitmapFactory.decodeByteArray(imgData, 0,
+                        imgData.length);
             }
+            return bitmap;
 
-            //decode with inSampleSize
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = scale;
-            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
-        } catch (FileNotFoundException e) {
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     //Task for the queue
@@ -148,9 +123,6 @@ public class ImageLoader {
             if (imageViewReused(photoToLoad))
                 return;
             Bitmap bmp = getBitmap(photoToLoad.url);
-            mCache.put(photoToLoad.url, bmp);
-            if (imageViewReused(photoToLoad))
-                return;
             BitmapDisplayer bd = new BitmapDisplayer(bmp, photoToLoad);
             Activity a = (Activity) photoToLoad.imageView.getContext();
             a.runOnUiThread(bd);

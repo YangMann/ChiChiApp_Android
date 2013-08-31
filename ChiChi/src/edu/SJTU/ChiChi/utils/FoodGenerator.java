@@ -90,16 +90,15 @@ public class FoodGenerator {
     }
     
     public Food[] getFoods(int bid){
-    	Food[] res = new Food[3];
     	int bc = getBuildingCount();
-    	res[0] = getFood((bid+bc-1)%bc);
-    	if(res[0]==null) return null;
-    	res[1] = getFood(bid);
-    	if(res[1]==null) return null;
-    	res[2] = getFood((bid+bc+1)%bc);
-    	if(res[2]==null) return null;
-    	return res;
+        Food[] res = new Food[bc];
+        for (int i=0;i<bc;++i){
+            res[i] = getFood(i);
+            if(res[i]==null) return null;
+        }
+        return res;
     }
+
     public Food randomFood(){
     	return getFood(Math.abs(new Random().nextInt())%getBuildingCount());
     }
