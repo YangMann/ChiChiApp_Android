@@ -6,5 +6,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="ChiChi_Copyright">ChiChi, SJTU</string>
     <string name="middot">·</string>
+    <string name="loading_text">Loading……</string>
 
 </resources>

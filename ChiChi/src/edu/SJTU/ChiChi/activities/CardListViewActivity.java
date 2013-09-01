@@ -1,19 +1,14 @@
 package edu.SJTU.ChiChi.activities;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
@@ -21,6 +16,12 @@ import edu.SJTU.ChiChi.utils.Blur;
 import edu.SJTU.ChiChi.utils.CardAdapter;
 import edu.SJTU.ChiChi.utils.FoodGenerator;
 import edu.SJTU.ChiChi.utils.ImageLoader;
+import org.apache.http.util.EncodingUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,15 +65,25 @@ public class CardListViewActivity extends Activity {
     MainHandler mHandler = new MainHandler();
     FoodGenerator fg = new FoodGenerator();
 
+    public String getJSONFromAssets(String filename) {
+        String result = "";
+        try {
+            InputStream in = getResources().getAssets().open(filename);
+            int length = in.available();
+            byte[] buffer = new byte[length];
+            in.read(buffer);
+            result = EncodingUtils.getString(buffer, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
 
         bg = (ImageView) findViewById(R.id.normal_image);
         bg_blurred = (ImageView) findViewById(R.id.blurred_image);
@@ -173,7 +184,6 @@ public class CardListViewActivity extends Activity {
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());
                 imageLoader.DisplayImage(food.url, bg);
-
                 new Thread(new BlurInBackground(imageLoader, food)).start();
             }
             adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
@@ -190,9 +200,10 @@ public class CardListViewActivity extends Activity {
 
         @Override
         public void run() {
-            fg.fetchjson();
+            fg.fetchJSON();
+//            foodGenerator.setJSON(getJSONFromAssets("food.json"));  TODO 判断联网
             Message msg = new Message();
-            if (fg.noerror())
+            if (fg.noError())
                 msg.what = MSG_JSON_FETCHED;
             else
                 msg.what = MSG_JSON_FAILED;
@@ -232,13 +243,13 @@ public class CardListViewActivity extends Activity {
         FoodGenerator.Food food;
         ImageLoader imageLoader;
 
-        public BlurInBackground(ImageLoader imageloader, FoodGenerator.Food food){
+        public BlurInBackground(ImageLoader imageloader, FoodGenerator.Food food) {
             this.imageLoader = imageloader;
             this.food = food;
         }
 
         @Override
-        public void run(){
+        public void run() {
             blurred_img = Blur.fastBlur(CardListViewActivity.this, imageLoader.getBitmap(food.url), BLUR_RADIUS);
             Message msg = new Message();
             msg.what = MSG_BLUR_FINISHED;

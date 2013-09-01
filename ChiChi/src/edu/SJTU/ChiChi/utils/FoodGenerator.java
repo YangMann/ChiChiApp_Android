@@ -9,31 +9,24 @@ import java.util.Random;
 public class FoodGenerator {
     String json_url = "http://wl.ibox.sjtu.edu.cn/w/8207/food.json";
     JSONArray json = null;
-    String test =
-            "[" +
-                    "{" +
-                    "'building':'hale'," +
-                    "'restaurants':" +
-                    "[{" +
-                    "'restaurant':'hale'," +
-                    "'foods':" +
-                    "[{" +
-                    "'name':'lamian'," +
-                    "'url':'http://fmn.rrimg.com/fmn064/20130824/0005/large_AxBe_056400008651125d.jpg'" +
-                    "}]" +
-                    "}]" +
-                    "}" +
-                    "]";
 
     public FoodGenerator() {
     }
-    
-    public void fetchjson(){
+
+    public void fetchJSON() {
         String json_string = JSONParser.getJsonFromUrl(json_url);
         //String json_string = test;
         try {
             if (json_string == null) return;
             json = new JSONArray(json_string);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setJSON(String jsonString) {
+        try {
+            json = new JSONArray(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -61,7 +54,7 @@ public class FoodGenerator {
         }
     }
 
-    public boolean noerror() {
+    public boolean noError() {
         return json != null;
     }
 
@@ -88,18 +81,18 @@ public class FoodGenerator {
         }
         return null;
     }
-    
-    public Food[] getFoods(int bid){
-    	int bc = getBuildingCount();
+
+    public Food[] getFoods() {
+        int bc = getBuildingCount();
         Food[] res = new Food[bc];
-        for (int i=0;i<bc;++i){
+        for (int i = 0; i < bc; ++i) {
             res[i] = getFood(i);
-            if(res[i]==null) return null;
+            if (res[i] == null) return null;
         }
         return res;
     }
 
-    public Food randomFood(){
-    	return getFood(Math.abs(new Random().nextInt())%getBuildingCount());
+    public Food randomFood() {
+        return getFood(Math.abs(new Random().nextInt()) % getBuildingCount());
     }
 }

@@ -5,5 +5,6 @@
     <string name="action_settings">设置</string>
     <string name="hello_world">你好，世界！</string>
     <string name="ChiChi_Copyright">交大吃吃</string>
+    <string name="loading_text">食物加载中……</string>
 
 </resources>
