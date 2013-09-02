@@ -47,12 +47,10 @@
             android:layout_height="match_parent"
             android:alpha="0"/>
 
-    <edu.SJTU.ChiChi.views.Pull2RefreshListView
-            android:id="@+id/p2r_list_view"
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    <ListView
+            android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            ptr:ptrHeaderBackground="@android:color/transparent"
             android:divider="@android:color/transparent"
             android:scrollbars="none"
             android:layout_marginLeft="10dp"
