@@ -82,7 +82,14 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
 
     private class LAdapter extends BaseAdapter {
 
+        public int index = 0;
+
         private LayoutInflater layoutInflater = null;
+
+        public LAdapter(Activity a, int i) {
+            layoutInflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            index = i;
+        }
 
         @Override
         public int getCount() {
@@ -107,6 +114,12 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
             }
             ImageView normalImg = (ImageView) vi.findViewById(R.id.normal_image);
             ImageView blurredImg = (ImageView) vi.findViewById(R.id.blurred_image);
+
+            normalBackgrounds[index] = normalImg;
+            blurredBackgrounds[index] = blurredImg;
+            ListView listView = (ListView) vi.findViewById(R.id.listView);
+            listView.setAdapter(cardAdapters[index]);
+
             return vi;
         }
     }
@@ -128,8 +141,8 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
 
                 Pull2RefreshListView pull2RefreshListView = (Pull2RefreshListView) LayoutInflater.from(context).inflate(
                         R.layout.list_view_wrap, container, false);
-                normalBackgrounds[i] = (ImageView) pull2RefreshListView.findViewById(R.id.normal_image);
-                blurredBackgrounds[i] = (ImageView) pull2RefreshListView.findViewById(R.id.blurred_image);
+//                normalBackgrounds[i] = (ImageView) pull2RefreshListView.findViewById(R.id.normal_image);
+//                blurredBackgrounds[i] = (ImageView) pull2RefreshListView.findViewById(R.id.blurred_image);
                 pull2RefreshListViews[i] = pull2RefreshListView;
 
             }
@@ -138,8 +151,9 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
             new Thread(new DelayRun(PARAM_SPLASH_TIME, MSG_SPLASH_FINISHED)).start();
 
             for (int i = 0; i < PARAM_SCREEN_COUNT; i++) {
+                LAdapter lAdapter = new LAdapter(CLVPActivity.this, i);
 
-                pull2RefreshListViews[i].setAdapter(cardAdapters[i]);
+                pull2RefreshListViews[i].setAdapter(lAdapter);
                 pull2RefreshListViews[i].setOnRefreshListener(CLVPActivity.this);
 
             }
