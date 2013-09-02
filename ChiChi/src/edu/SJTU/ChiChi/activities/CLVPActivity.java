@@ -48,11 +48,11 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
     public static final int MSG_SPLASH_FINISHED = 2;
     public static final int MSG_BLUR_FINISHED = 3;
 
-    public static final int PARAM_SPLASH_TIME = 0;
-    public static final double PARAM_PARALLAX_RATIO = 2.5;
-    public static final int PARAM_MAX_SHIFT = 500;
-    public static final int PARAM_BLUR_RADIUS = 20;
-    public static final int PARAM_SCREEN_COUNT = 6;
+    public static final int PARAM_SPLASH_TIME = 0;          // 闪屏时间
+    public static final double PARAM_PARALLAX_RATIO = 2.5;  // 视差效果比例
+    public static final int PARAM_MAX_SHIFT = 500;          // 视差最大位移
+    public static final int PARAM_BLUR_RADIUS = 20;         // 模糊半径
+    public static final int PARAM_SCREEN_COUNT = 2;         // 左右屏幕数目
 
     private ViewPager viewPager;
     private ListView[] listViews;
@@ -71,8 +71,8 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
         setContentView(R.layout.tmp);
 
         viewPager = (ViewPager) findViewById(R.id.main_vp);
-
         viewPager.setAdapter(new CLVPAdapter());
+
     }
 
     @Override
@@ -80,7 +80,7 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
         new GetDataTask(refreshView).execute();
     }
 
-    private class LAdapter extends BaseAdapter {
+    private class LAdapter extends BaseAdapter {    // LAdapter中间层Adapter，将FrameLayout填充进P2RListView
 
         public int index = 0;
 
@@ -124,7 +124,7 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
         }
     }
 
-    private class CLVPAdapter extends PagerAdapter {
+    private class CLVPAdapter extends PagerAdapter {    // 最外层Adapter，将下拉刷ListView：Pull2RefreshListView填充到ViewPager
 
         @Override
         public View instantiateItem(ViewGroup container, int position) {
@@ -226,7 +226,7 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
                 imageLoader.DisplayImage(food.url, normalBackgrounds[i]);
 
                 new Thread(new BlurInBackground(imageLoader, food, i)).start();
-                cardAdapters[i] = new CardAdapter(CLVPActivity.this, dishList, 0);
+                cardAdapters[i] = new CardAdapter(CLVPActivity.this, dishList, 0);  // CardAdapter将卡片填充进最内层ListView
             }
         }
 
