@@ -74,7 +74,6 @@ public class CardAdapter extends BaseAdapter {
         switch (cardType) {
             case 0: {
                 TextView name = (TextView) vi.findViewById(R.id.name);
-                //VerticalTextView name = (VerticalTextView) vi.findViewById(R.id.name);
 //                ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
                 TextView price = (TextView) vi.findViewById(R.id.price);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
@@ -96,8 +95,6 @@ public class CardAdapter extends BaseAdapter {
                 restaurant.setText(dish.get(CardListViewActivity.KEY_RESTAURANT));
 
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
-
-//                imageLoader.DisplayImage(dish.get(CardListViewActivity.KEY_THUMB_URL), thumb_image);
                 RelativeLayout nameWrap = (RelativeLayout) vi.findViewById(R.id.name_wrap);
 
                 Display display = activity.getWindowManager().getDefaultDisplay();

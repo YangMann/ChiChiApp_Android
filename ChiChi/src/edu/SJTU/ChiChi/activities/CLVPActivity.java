@@ -12,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
@@ -79,6 +80,37 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
         new GetDataTask(refreshView).execute();
     }
 
+    private class LAdapter extends BaseAdapter {
+
+        private LayoutInflater layoutInflater = null;
+
+        @Override
+        public int getCount() {
+            return 1;
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return i;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+            View vi = view;
+            if (vi == null) {
+                vi = layoutInflater.inflate(R.layout.list_view_main, null);
+            }
+            ImageView normalImg = (ImageView) vi.findViewById(R.id.normal_image);
+            ImageView blurredImg = (ImageView) vi.findViewById(R.id.blurred_image);
+            return vi;
+        }
+    }
+
     private class CLVPAdapter extends PagerAdapter {
 
         @Override
@@ -95,7 +127,7 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
             for (int i = 0; i < PARAM_SCREEN_COUNT; i++) {
 
                 Pull2RefreshListView pull2RefreshListView = (Pull2RefreshListView) LayoutInflater.from(context).inflate(
-                        R.layout.list_view_main, container, false);
+                        R.layout.list_view_wrap, container, false);
                 normalBackgrounds[i] = (ImageView) pull2RefreshListView.findViewById(R.id.normal_image);
                 blurredBackgrounds[i] = (ImageView) pull2RefreshListView.findViewById(R.id.blurred_image);
                 pull2RefreshListViews[i] = pull2RefreshListView;
