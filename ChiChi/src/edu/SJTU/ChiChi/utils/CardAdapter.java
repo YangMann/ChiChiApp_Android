@@ -6,10 +6,7 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.view.*;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import android.widget.*;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.activities.CardListViewActivity;
 
@@ -81,6 +78,7 @@ public class CardAdapter extends BaseAdapter {
                 TextView building = (TextView) vi.findViewById(R.id.building);
                 TextView restaurant = (TextView) vi.findViewById(R.id.restaurant);
                 TextView description = (TextView) vi.findViewById(R.id.description);
+                ImageButton refreshButton = (ImageButton) vi.findViewById(R.id.refreshButton);
 
                 name.setText(dish.get(CardListViewActivity.KEY_NAME));
                 name.setTypeface(Sung);
@@ -112,6 +110,11 @@ public class CardAdapter extends BaseAdapter {
         }
 
         return vi;
+    }
+
+    public void refreshData(ArrayList<HashMap<String, String>> d) {
+        data = d;
+        notifyDataSetChanged();
     }
 
 }

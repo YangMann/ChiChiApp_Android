@@ -220,4 +220,13 @@
 
     </LinearLayout>
 
+    <!--<ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/refreshButton"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/default_ptr_rotate"
+            android:contentDescription="@string/app_name"/>-->
+
 </RelativeLayout>

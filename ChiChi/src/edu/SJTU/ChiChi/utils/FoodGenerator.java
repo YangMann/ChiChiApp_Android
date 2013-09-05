@@ -26,6 +26,7 @@ public class FoodGenerator {
 
     public void setJSON(String jsonString) {
         try {
+//            Log.v("jsonString", jsonString);
             json = new JSONArray(jsonString);
         } catch (JSONException e) {
             e.printStackTrace();

@@ -3,14 +3,18 @@ package edu.SJTU.ChiChi.activities;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Vibrator;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.*;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.utils.Blur;
 import edu.SJTU.ChiChi.utils.CardAdapter;
@@ -47,20 +51,31 @@ public class CardListViewActivity extends Activity {
     public static final int MSG_JSON_FAILED = 1;
     public static final int MSG_SPLASH_FINISHED = 2;
     public static final int MSG_BLUR_FINISHED = 3;
+    public static final int SENSOR_SHAKE = 10;
+    public static final int REFRESH_PRESSED = 11;
+
 
     private static final int SPLASH_TIME = 0;
+    private static final int SENSOR_THRESHOLD = 30;
     public static final double PARALLAX_RATIO = 2.5;
     public static final int MAX_SHIFT = 500;
     public static final int BLUR_RADIUS = 20;
+
 
     private ListView list;
     private ImageView bg;
     private ImageView bg_blurred;
     private Bitmap blurred_img;
+    private ImageButton refresh_button;
+    private Animation roundLoading;
+
+    private SensorManager sensorManager;
+    private Vibrator vibrator;
+
     private float blur_alpha;
     CardAdapter adapter0;
 
-    ArrayList<HashMap<String, String>> dishList = new ArrayList<HashMap<String, String>>();
+    ArrayList<HashMap<String, String>> dishList;
 
     MainHandler mHandler = new MainHandler();
     FoodGenerator fg = new FoodGenerator();
@@ -71,11 +86,14 @@ public class CardListViewActivity extends Activity {
             InputStream in = getResources().getAssets().open(filename);
             int length = in.available();
             byte[] buffer = new byte[length];
+//            Log.v("buffer", String.valueOf(buffer.length));
             in.read(buffer);
             result = EncodingUtils.getString(buffer, "UTF-8");
         } catch (IOException e) {
+//            Log.v("ioe", e.getMessage());
             e.printStackTrace();
         }
+//        Log.v("result", result);
 
         return result;
     }
@@ -83,11 +101,16 @@ public class CardListViewActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.list_view_main);
 
         bg = (ImageView) findViewById(R.id.normal_image);
         bg_blurred = (ImageView) findViewById(R.id.blurred_image);
         list = (ListView) findViewById(R.id.listView);
+        refresh_button = (ImageButton) findViewById(R.id.refreshButton);
+        roundLoading = AnimationUtils.loadAnimation(CardListViewActivity.this, R.anim.round_loading);
+
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 
         list.setCacheColorHint(0);
         list.setSelected(false);
@@ -140,7 +163,51 @@ public class CardListViewActivity extends Activity {
 
         new Thread(new FetchJSON()).start();
         new Thread(new DelayRun(SPLASH_TIME, MSG_SPLASH_FINISHED)).start();
+
+        refresh_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                refresh_button.startAnimation(roundLoading);
+//                Log.e("button", "button clicked!");
+                Message msg = new Message();
+                msg.what = REFRESH_PRESSED;
+                mHandler.sendMessage(msg);
+            }
+        });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (sensorManager != null) {
+            sensorManager.registerListener(
+                    sensorEventListener,
+                    sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                    SensorManager.SENSOR_DELAY_NORMAL
+            );
+        }
+    }
+
+    private SensorEventListener sensorEventListener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent sensorEvent) {
+            float[] values = sensorEvent.values;
+            float x = values[0]; // x轴方向的重力加速度，向右为正
+            float y = values[1]; // y轴方向的重力加速度，向前为正
+            float z = values[2]; // z轴方向的重力加速度，向上为正
+            if (Math.abs(x) > SENSOR_THRESHOLD || Math.abs(y) > SENSOR_THRESHOLD || Math.abs(z) > SENSOR_THRESHOLD) {
+                refresh_button.startAnimation(roundLoading);
+                vibrator.vibrate(200);
+                Message msg = new Message();
+                msg.what = SENSOR_SHAKE;
+                mHandler.sendMessage(msg);
+            }
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int i) {
+        }
+    };
 
     class MainHandler extends Handler {
         boolean json_fetched = false;
@@ -153,22 +220,36 @@ public class CardListViewActivity extends Activity {
                 case MSG_JSON_FETCHED:
                     json_fetched = true;
                     loadData();
+                    setAdapter();
                     break;
                 case MSG_JSON_FAILED:
                     break;
                 case MSG_SPLASH_FINISHED:
                     splash_finished = true;
                     loadData();
+                    setAdapter();
                     break;
                 case MSG_BLUR_FINISHED:
-                    showblur();
+                    showBlur();
+                    refresh_button.clearAnimation();
+                    break;
+                case SENSOR_SHAKE:
+//                    Log.e("sensor", "shake!");
+                    mHandler.loadData();
+                    adapter0.refreshData(dishList);
+                    break;
+                case REFRESH_PRESSED:
+                    mHandler.loadData();
+                    adapter0.refreshData(dishList);
             }
         }
 
         private void loadData() {
+            dishList = new ArrayList<HashMap<String, String>>();
+
             if (!json_fetched || !splash_finished) return;
 
-            FoodGenerator.Food food = null;
+            FoodGenerator.Food food;
             food = fg.randomFood();
             for (int i = 0; i < 1; i++) {
                 HashMap<String, String> map = new HashMap<String, String>();
@@ -186,11 +267,27 @@ public class CardListViewActivity extends Activity {
                 imageLoader.DisplayImage(food.url, bg);
                 new Thread(new BlurInBackground(imageLoader, food)).start();
             }
-            adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
-            list.setAdapter(adapter0);
+//            adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
+//            list.setAdapter(adapter0);
         }
 
-        private void showblur() {
+        private void setAdapter() {
+            adapter0 = new CardAdapter(CardListViewActivity.this, dishList, 0);
+            list.setAdapter(adapter0);
+            /*refresh_button = (ImageButton) findViewById(R.id.refreshButton);
+            if (refresh_button != null) {
+                refresh_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.e("button", "Button clicked!");
+                        mHandler.loadData();
+                        adapter0.refreshData(dishList);
+                    }
+                });
+            }*/
+        }
+
+        private void showBlur() {
             bg_blurred.setImageBitmap(blurred_img);
         }
 
@@ -200,8 +297,8 @@ public class CardListViewActivity extends Activity {
 
         @Override
         public void run() {
-            fg.fetchJSON();
-//            foodGenerator.setJSON(getJSONFromAssets("food.json"));  TODO 判断联网
+//            fg.fetchJSON();
+            fg.setJSON(getJSONFromAssets("JSON/food.json"));  // TODO 判断联网
             Message msg = new Message();
             if (fg.noError())
                 msg.what = MSG_JSON_FETCHED;
@@ -212,12 +309,12 @@ public class CardListViewActivity extends Activity {
     }
 
     class DelayRun implements Runnable {
-        int delaytime;
-        int msgwhat;
+        int delayTime;
+        int msgWhat;
 
         public DelayRun(int dtime, int msg) {
-            delaytime = dtime;
-            msgwhat = msg;
+            delayTime = dtime;
+            msgWhat = msg;
         }
 
         public DelayRun(int dtime) {
@@ -227,13 +324,13 @@ public class CardListViewActivity extends Activity {
         @Override
         public void run() {
             try {
-                Thread.sleep(delaytime);
+                Thread.sleep(delayTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            if (msgwhat != -1) {
+            if (msgWhat != -1) {
                 Message msg = new Message();
-                msg.what = msgwhat;
+                msg.what = msgWhat;
                 mHandler.sendMessage(msg);
             }
         }

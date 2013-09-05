@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.layouts.Pull2RefreshBase;
@@ -52,10 +53,11 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
     public static final double PARAM_PARALLAX_RATIO = 2.5;  // 视差效果比例
     public static final int PARAM_MAX_SHIFT = 500;          // 视差最大位移
     public static final int PARAM_BLUR_RADIUS = 20;         // 模糊半径
-    public static final int PARAM_SCREEN_COUNT = 2;         // 左右屏幕数目
+    public static final int PARAM_SCREEN_COUNT = 1;         // 左右屏幕数目
 
     private ViewPager viewPager;
     private ListView[] listViews;
+    private ListView[] cardlists;
     private Bitmap[] blurred_imgs = new Bitmap[PARAM_SCREEN_COUNT];
     private ImageView[] normalBackgrounds;
     private ImageView[] blurredBackgrounds;
@@ -73,6 +75,9 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
         viewPager = (ViewPager) findViewById(R.id.main_vp);
         viewPager.setAdapter(new CLVPAdapter());
 
+
+        new Thread(new FetchJSON()).start();
+        new Thread(new DelayRun(PARAM_SPLASH_TIME, MSG_SPLASH_FINISHED)).start();
     }
 
     @Override
@@ -118,6 +123,8 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
             normalBackgrounds[index] = normalImg;
             blurredBackgrounds[index] = blurredImg;
             ListView listView = (ListView) vi.findViewById(R.id.listView);
+            cardlists[i] = listView;
+            setListViewHeight(listView);
             listView.setAdapter(cardAdapters[index]);
 
             return vi;
@@ -132,6 +139,7 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
 
             cardAdapters = new CardAdapter[PARAM_SCREEN_COUNT];
             listViews = new ListView[PARAM_SCREEN_COUNT];
+            cardlists = new ListView[PARAM_SCREEN_COUNT];
             normalBackgrounds = new ImageView[PARAM_SCREEN_COUNT];
             blurredBackgrounds = new ImageView[PARAM_SCREEN_COUNT];
 
@@ -147,12 +155,8 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
 
             }
 
-            new Thread(new FetchJSON()).start();
-            new Thread(new DelayRun(PARAM_SPLASH_TIME, MSG_SPLASH_FINISHED)).start();
-
             for (int i = 0; i < PARAM_SCREEN_COUNT; i++) {
                 LAdapter lAdapter = new LAdapter(CLVPActivity.this, i);
-
                 pull2RefreshListViews[i].setAdapter(lAdapter);
                 pull2RefreshListViews[i].setOnRefreshListener(CLVPActivity.this);
 
@@ -227,6 +231,8 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
 
                 new Thread(new BlurInBackground(imageLoader, food, i)).start();
                 cardAdapters[i] = new CardAdapter(CLVPActivity.this, dishList, 0);  // CardAdapter将卡片填充进最内层ListView
+
+                //cardlists[i].setAdapter(cardAdapters[i]);
             }
         }
 
@@ -326,4 +332,37 @@ public class CLVPActivity extends Activity implements Pull2RefreshBase.OnRefresh
         }
     }
 
+    /**
+     * 设置Listview的高度
+     */
+
+    public void setListViewHeight(ListView listView) {
+
+        ListAdapter listAdapter = listView.getAdapter();
+
+        if (listAdapter == null) {
+
+            return;
+
+        }
+
+        int totalHeight = 0;
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+
+            View listItem = listAdapter.getView(i, null, listView);
+
+            listItem.measure(0, 0);
+
+            totalHeight += listItem.getMeasuredHeight();
+
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+
+        listView.setLayoutParams(params);
+
+    }
 }

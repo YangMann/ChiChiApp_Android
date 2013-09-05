@@ -8,6 +8,7 @@
              android:paddingLeft="@dimen/activity_horizontal_margin"
              android:paddingRight="@dimen/activity_horizontal_margin"
              android:paddingTop="@dimen/activity_vertical_margin"
+             android:background="#aaaaaaaa"
              tools:context=".MainActivity">
 
     <RelativeLayout
@@ -23,7 +24,8 @@
                 android:textColor="#EEEEEE"
                 android:gravity="center"
                 android:layout_centerInParent="true"
-                android:text="@string/loading_text"/>
+                android:text="@string/loading_text"
+                android:id="@+id/textView"/>
 
         <!--
     <ImageView
@@ -58,4 +60,13 @@
             android:dividerHeight="10dp"
             android:longClickable="false"
             android:listSelector="@android:color/transparent"/>
+
+    <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/refreshButton"
+            android:background="@drawable/default_ptr_rotate"
+            android:contentDescription="@string/app_name"
+            android:layout_gravity="right"/>
+
 </FrameLayout>
