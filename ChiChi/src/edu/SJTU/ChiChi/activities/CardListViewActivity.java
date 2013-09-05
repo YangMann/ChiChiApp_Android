@@ -56,7 +56,7 @@ public class CardListViewActivity extends Activity {
 
 
     private static final int SPLASH_TIME = 0;
-    private static final int SENSOR_THRESHOLD = 30;
+    private static final int SENSOR_THRESHOLD = 32;
     public static final double PARALLAX_RATIO = 2.5;
     public static final int MAX_SHIFT = 500;
     public static final int BLUR_RADIUS = 20;
@@ -67,6 +67,7 @@ public class CardListViewActivity extends Activity {
     private ImageView bg_blurred;
     private Bitmap blurred_img;
     private ImageButton refresh_button;
+    private ImageButton refresh_button_shadow;
     private Animation roundLoading;
 
     private SensorManager sensorManager;
@@ -107,6 +108,7 @@ public class CardListViewActivity extends Activity {
         bg_blurred = (ImageView) findViewById(R.id.blurred_image);
         list = (ListView) findViewById(R.id.listView);
         refresh_button = (ImageButton) findViewById(R.id.refreshButton);
+        refresh_button_shadow = (ImageButton) findViewById(R.id.refreshButtonShadow);
         roundLoading = AnimationUtils.loadAnimation(CardListViewActivity.this, R.anim.round_loading);
 
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -168,6 +170,7 @@ public class CardListViewActivity extends Activity {
             @Override
             public void onClick(View view) {
                 refresh_button.startAnimation(roundLoading);
+                refresh_button_shadow.startAnimation(roundLoading);
 //                Log.e("button", "button clicked!");
                 Message msg = new Message();
                 msg.what = REFRESH_PRESSED;
@@ -197,6 +200,7 @@ public class CardListViewActivity extends Activity {
             float z = values[2]; // z轴方向的重力加速度，向上为正
             if (Math.abs(x) > SENSOR_THRESHOLD || Math.abs(y) > SENSOR_THRESHOLD || Math.abs(z) > SENSOR_THRESHOLD) {
                 refresh_button.startAnimation(roundLoading);
+                refresh_button_shadow.startAnimation(roundLoading);
                 vibrator.vibrate(200);
                 Message msg = new Message();
                 msg.what = SENSOR_SHAKE;
@@ -232,6 +236,7 @@ public class CardListViewActivity extends Activity {
                 case MSG_BLUR_FINISHED:
                     showBlur();
                     refresh_button.clearAnimation();
+                    refresh_button_shadow.clearAnimation();
                     break;
                 case SENSOR_SHAKE:
 //                    Log.e("sensor", "shake!");
