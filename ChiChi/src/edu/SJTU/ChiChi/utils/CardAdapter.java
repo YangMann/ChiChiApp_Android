@@ -6,12 +6,16 @@ import android.content.Context;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.view.*;
-import android.widget.*;
+import android.widget.AbsListView;
+import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import edu.SJTU.ChiChi.R;
 import edu.SJTU.ChiChi.activities.CardListViewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created with IntelliJ IDEA.
@@ -41,7 +45,7 @@ public class CardAdapter extends BaseAdapter {
         imageLoader = new ImageLoader(a.getApplicationContext());
         Sung = Typeface.createFromAsset(a.getAssets(), "fonts/ChekiangSung.otf");
         Segoe = Typeface.createFromAsset(a.getAssets(), "fonts/segoeuil.ttf");
-        Helvetica = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-ThEx.otf");
+        Helvetica = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-Lt.otf");
         HelveticaU = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-UltLtEx.otf");
     }
 
@@ -70,29 +74,36 @@ public class CardAdapter extends BaseAdapter {
         HashMap<String, String> dish = data.get(position);
         switch (cardType) {
             case 0: {
+                String displayLanguage = Locale.getDefault().getDisplayLanguage();
                 TextView name = (TextView) vi.findViewById(R.id.name);
 //                ImageView thumb_image = (ImageView) vi.findViewById(R.id.thumbnail);
                 TextView price = (TextView) vi.findViewById(R.id.price);
+                TextView copyright = (TextView) vi.findViewById(R.id.copyright);
+                TextView tasteHeader = (TextView) vi.findViewById(R.id.tasteHeader);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
                 TextView genre = (TextView) vi.findViewById(R.id.genre);
                 TextView building = (TextView) vi.findViewById(R.id.building);
                 TextView restaurant = (TextView) vi.findViewById(R.id.restaurant);
+                TextView descriptionHeader = (TextView) vi.findViewById(R.id.descriptionHeader);
                 TextView description = (TextView) vi.findViewById(R.id.description);
-                ImageButton refreshButton = (ImageButton) vi.findViewById(R.id.refreshButton);
+//                ImageButton refreshButton = (ImageButton) vi.findViewById(R.id.refreshButton);
 
                 name.setText(dish.get(CardListViewActivity.KEY_NAME));
-                name.setTypeface(Sung);
-
-                price.setTypeface(HelveticaU);
                 price.setText(dish.get(CardListViewActivity.KEY_PRICE));
-
 //                taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
-                genre.setTypeface(Sung);
                 building.setText(dish.get(CardListViewActivity.KEY_BUILDING));
-
                 restaurant.setText(dish.get(CardListViewActivity.KEY_RESTAURANT));
-
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
+
+                name.setTypeface(Sung);
+                price.setTypeface(HelveticaU);
+                genre.setTypeface(Sung);
+
+                if (displayLanguage.equals("English")) {
+                    tasteHeader.setTypeface(Helvetica);
+                    descriptionHeader.setTypeface(Helvetica);
+                }
+
                 RelativeLayout nameWrap = (RelativeLayout) vi.findViewById(R.id.name_wrap);
 
                 Display display = activity.getWindowManager().getDefaultDisplay();

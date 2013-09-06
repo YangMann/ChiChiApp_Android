@@ -6,5 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="ChiChi_Copyright">ChiChi, SJTU</string>
     <string name="loading_text">Loading……</string>
+    <string name="descriptionHeader">Description</string>
+    <string name="tasteHeader">Taste</string>
 
 </resources>

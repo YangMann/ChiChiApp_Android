@@ -6,5 +6,7 @@
     <string name="hello_world">哈嘍，這個世界！</string>
     <string name="ChiChi_Copyright">交大吃吃</string>
     <string name="loading_text">餐點載入中……</string>
+    <string name="descriptionHeader">簡評</string>
+    <string name="tasteHeader">味道</string>
 
 </resources>

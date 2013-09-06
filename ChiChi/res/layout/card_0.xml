@@ -156,6 +156,25 @@
                 android:layout_marginTop="10dp">
 
             <TextView
+                    android:id="@+id/tasteHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/tasteHeader"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"/>
+
+            <ImageView
+                    android:id="@+id/row_wrap_0_h_line_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/h_line"
+                    android:contentDescription="@string/app_name"
+                    android:layout_below="@+id/tasteHeader"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+
+            <TextView
                     android:id="@+id/taste"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -163,7 +182,8 @@
                     android:textColor="#FFFFFF"
                     android:text="鲜香咸"
                     android:textSize="40sp"
-                    android:layout_alignBottom="@+id/genre"/>
+                    android:layout_alignBottom="@+id/genre"
+                    android:layout_below="@+id/row_wrap_0_h_line_0"/>
 
             <edu.SJTU.ChiChi.views.VerticalTextView
                     android:layout_width="wrap_content"
@@ -173,7 +193,8 @@
                     android:textSize="60sp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginLeft="70dp"
-                    android:lineSpacingMultiplier="1.2"/>
+                    android:lineSpacingMultiplier="1.2"
+                    android:layout_below="@+id/row_wrap_0_h_line_0"/>
 
         </RelativeLayout>
 
@@ -188,12 +209,31 @@
                 android:layout_marginTop="10dp">
 
             <TextView
+                    android:id="@+id/descriptionHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/descriptionHeader"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    />
+
+            <ImageView
+                    android:id="@+id/row_wrap_1_h_line_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/h_line"
+                    android:contentDescription="@string/app_name"
+                    android:layout_below="@+id/descriptionHeader"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+            <TextView
                     android:id="@+id/description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
                     android:textColor="#FFFFFF"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    android:layout_below="@+id/row_wrap_1_h_line_0"/>
 
         </RelativeLayout>
 
