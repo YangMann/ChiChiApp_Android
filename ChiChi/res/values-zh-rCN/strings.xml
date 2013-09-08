@@ -9,4 +9,10 @@
     <string name="descriptionHeader">描述</string>
     <string name="tasteHeader">口味</string>
 
+    <string name="disconnected">网络未连接</string>
+    <string name="disconnectedMessage">请检查网络设置</string>
+
+    <string name="confirmButton">好</string>
+    <string name="mapHeader">地图</string>
+
 </resources>

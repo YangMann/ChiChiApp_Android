@@ -30,6 +30,7 @@ public class CardAdapter extends BaseAdapter {
     private int cardType;
     private static LayoutInflater inflater = null;
     private Typeface Sung;
+    private Typeface Kangxi;
     private Typeface Segoe;
     private Typeface Helvetica;
     private Typeface HelveticaU;
@@ -43,7 +44,8 @@ public class CardAdapter extends BaseAdapter {
         cardType = c;
         inflater = (LayoutInflater) a.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new ImageLoader(a.getApplicationContext());
-        Sung = Typeface.createFromAsset(a.getAssets(), "fonts/ChekiangSung.otf");
+//        Sung = Typeface.createFromAsset(a.getAssets(), "fonts/ChekiangSung.otf");
+        Kangxi = Typeface.createFromAsset(a.getAssets(), "fonts/Kangxi.ttf");
         Segoe = Typeface.createFromAsset(a.getAssets(), "fonts/segoeuil.ttf");
         Helvetica = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-Lt.otf");
         HelveticaU = Typeface.createFromAsset(a.getAssets(), "fonts/HelveticaNeueLTPro-UltLtEx.otf");
@@ -86,6 +88,7 @@ public class CardAdapter extends BaseAdapter {
                 TextView restaurant = (TextView) vi.findViewById(R.id.restaurant);
                 TextView descriptionHeader = (TextView) vi.findViewById(R.id.descriptionHeader);
                 TextView description = (TextView) vi.findViewById(R.id.description);
+                TextView mapHeader = (TextView) vi.findViewById(R.id.mapHeader);
 //                ImageButton refreshButton = (ImageButton) vi.findViewById(R.id.refreshButton);
 
                 name.setText(dish.get(CardListViewActivity.KEY_NAME));
@@ -95,13 +98,14 @@ public class CardAdapter extends BaseAdapter {
                 restaurant.setText(dish.get(CardListViewActivity.KEY_RESTAURANT));
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
 
-                name.setTypeface(Sung);
+                name.setTypeface(Kangxi);
                 price.setTypeface(HelveticaU);
-                genre.setTypeface(Sung);
+                genre.setTypeface(Kangxi);
 
                 if (displayLanguage.equals("English")) {
                     tasteHeader.setTypeface(Helvetica);
                     descriptionHeader.setTypeface(Helvetica);
+                    mapHeader.setTypeface(Helvetica);
                 }
 
                 RelativeLayout nameWrap = (RelativeLayout) vi.findViewById(R.id.name_wrap);

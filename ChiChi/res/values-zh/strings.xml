@@ -9,4 +9,9 @@
     <string name="descriptionHeader">簡評</string>
     <string name="tasteHeader">味道</string>
 
+    <string name="disconnected">網路未連接</string>
+    <string name="disconnectedMessage">請檢查無線與網路設定</string>
+
+    <string name="confirmButton">確定</string>
+    <string name="mapHeader">地圖</string>
 </resources>

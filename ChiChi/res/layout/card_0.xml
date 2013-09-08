@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:map="http://schemas.android.com/apk/res-auto"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -36,9 +37,7 @@
                 android:ems="1"
                 android:textSize="36sp"
                 android:textColor="#FFFFFF"
-                android:lineSpacingExtra="7sp"
                 android:layout_alignParentBottom="true"
-                android:layout_marginRight="-24dp"
                 android:shadowColor="#444444"
                 android:shadowDx="1"
                 android:shadowDy="1"
@@ -229,7 +228,7 @@
 
             <TextView
                     android:id="@+id/description"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
@@ -244,7 +243,48 @@
                 android:background="#50333333"
                 android:padding="10dp"
                 android:layout_marginTop="10dp"
-                android:id="@+id/row_wrap_2"
+                android:id="@+id/row_wrap_2">
+
+            <TextView
+                    android:id="@+id/mapHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mapHeader"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20sp"
+                    />
+
+            <ImageView
+                    android:id="@+id/row_wrap_2_h_line_0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/h_line"
+                    android:contentDescription="@string/app_name"
+                    android:layout_below="@+id/mapHeader"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"/>
+
+            <fragment
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    map:mapType="hybrid"
+                    map:cameraTargetLat="31.0224442"
+                    map:cameraTargetLng="121.4359062"
+                    map:cameraZoom="15"
+                    android:layout_below="@+id/row_wrap_2_h_line_0"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#50333333"
+                android:padding="10dp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/row_wrap_3"
                 android:gravity="center_vertical|center_horizontal">
 
             <TextView

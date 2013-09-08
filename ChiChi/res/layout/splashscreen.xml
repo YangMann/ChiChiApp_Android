@@ -4,12 +4,14 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background">
 
-    <edu.SJTU.ChiChi.views.TopCenterImageView
+    <ImageView
             android:id="@+id/splashBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"
-            android:src="@drawable/splash_background"/>
+            android:src="@drawable/splash_background"
+            android:contentDescription="@string/app_name"
+            android:scaleType="centerCrop"/>
 
 
     <RelativeLayout

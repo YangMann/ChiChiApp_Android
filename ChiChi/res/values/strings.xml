@@ -10,4 +10,10 @@
     <string name="descriptionHeader">Description</string>
     <string name="tasteHeader">Taste</string>
 
+    <string name="disconnected">Network disconnected</string>
+    <string name="disconnectedMessage">Please check your data network settings.</string>
+
+    <string name="confirmButton">Confirm</string>
+    <string name="mapHeader">Map</string>
+
 </resources>

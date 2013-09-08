@@ -51,15 +51,16 @@ public class CardListViewActivity extends Activity {
     public static final int MSG_JSON_FAILED = 1;
     public static final int MSG_SPLASH_FINISHED = 2;
     public static final int MSG_BLUR_FINISHED = 3;
-    public static final int SENSOR_SHAKE = 10;
-    public static final int REFRESH_PRESSED = 11;
+    public static final int MSG_SENSOR_SHAKE = 10;
+    public static final int MSG_REFRESH_PRESSED = 11;
 
+    private static boolean IN_PROGRESS = true;
 
     private static final int SPLASH_TIME = 0;
     private static final int SENSOR_THRESHOLD = 32;
     public static final double PARALLAX_RATIO = 2.5;
     public static final int MAX_SHIFT = 500;
-    public static final int BLUR_RADIUS = 20;
+    public static final int BLUR_RADIUS = 25;
 
 
     private ListView list;
@@ -173,7 +174,7 @@ public class CardListViewActivity extends Activity {
                 refresh_button_shadow.startAnimation(roundLoading);
 //                Log.e("button", "button clicked!");
                 Message msg = new Message();
-                msg.what = REFRESH_PRESSED;
+                msg.what = MSG_REFRESH_PRESSED;
                 mHandler.sendMessage(msg);
             }
         });
@@ -199,12 +200,14 @@ public class CardListViewActivity extends Activity {
             float y = values[1]; // y轴方向的重力加速度，向前为正
             float z = values[2]; // z轴方向的重力加速度，向上为正
             if (Math.abs(x) > SENSOR_THRESHOLD || Math.abs(y) > SENSOR_THRESHOLD || Math.abs(z) > SENSOR_THRESHOLD) {
-                refresh_button.startAnimation(roundLoading);
-                refresh_button_shadow.startAnimation(roundLoading);
-                vibrator.vibrate(200);
-                Message msg = new Message();
-                msg.what = SENSOR_SHAKE;
-                mHandler.sendMessage(msg);
+                if (!IN_PROGRESS) {
+                    refresh_button.startAnimation(roundLoading);
+                    refresh_button_shadow.startAnimation(roundLoading);
+                    vibrator.vibrate(200);
+                    Message msg = new Message();
+                    msg.what = MSG_SENSOR_SHAKE;
+                    mHandler.sendMessage(msg);
+                }
             }
         }
 
@@ -237,15 +240,21 @@ public class CardListViewActivity extends Activity {
                     showBlur();
                     refresh_button.clearAnimation();
                     refresh_button_shadow.clearAnimation();
+                    IN_PROGRESS = false;
                     break;
-                case SENSOR_SHAKE:
+                case MSG_SENSOR_SHAKE:
 //                    Log.e("sensor", "shake!");
-                    mHandler.loadData();
-                    adapter0.refreshData(dishList);
+                    if (!IN_PROGRESS) {
+                        IN_PROGRESS = true;
+                        mHandler.loadData();
+                        adapter0.refreshData(dishList);
+                    }
                     break;
-                case REFRESH_PRESSED:
-                    mHandler.loadData();
-                    adapter0.refreshData(dishList);
+                case MSG_REFRESH_PRESSED:
+                    if (!IN_PROGRESS) {
+                        mHandler.loadData();
+                        adapter0.refreshData(dishList);
+                    }
             }
         }
 
