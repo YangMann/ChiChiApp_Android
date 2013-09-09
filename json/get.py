@@ -11,19 +11,19 @@ for line in fin.readlines():
     while line[-1] == '\n' or line[-1] == '\r':
         line = line[0:-1]
     line = line.replace('\\', '\\\\')
-    arr = line.split(';')
+    arr = line.split('\t')
     photographer = arr[0]
     name = arr[1]
-    restaurant = arr[2]
+    taste = arr[2]
+    restaurant = arr[3]
     if (restaurant == '哈乐餐厅'):
         building = "哈乐"
     else:
         building = restaurant[0:6]
         restaurant = restaurant[6:]
-    price = arr[3]
-    description = arr[4]
-    url = arr[5]
-    taste = ""
+    price = arr[4]
+    description = arr[5]
+    url = arr[6]
     genre = ""
 
     if (preb == ''):
@@ -57,7 +57,8 @@ for line in fin.readlines():
                + '"genre":"' + genre + '",'
                + '"price":"¥' + price + '",'
                + '"taste":"' + taste + '",'
-               + '"description":"' + description + '"'
+               + '"description":"' + description + '",'
+               + '"photographer":"' + photographer + '"'
                + '}'
     )
     preb = building

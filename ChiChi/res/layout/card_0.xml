@@ -123,7 +123,23 @@
                     android:src="@drawable/cc_logo"
                     android:contentDescription="@string/app_name"
                     android:layout_marginRight="2dp"
-                    android:layout_marginTop="3dp"/>
+                    android:layout_marginTop="3dp"
+                    android:shadowColor="#444444"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/photographer"
+                    android:textSize="12sp"
+                    android:textColor="#FFFFFF"
+                    android:layout_marginRight="2dp"
+                    android:shadowColor="#444444"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -131,7 +147,11 @@
                     android:id="@+id/copyright"
                     android:text="@string/ChiChi_Copyright"
                     android:textSize="12sp"
-                    android:textColor="#FFFFFF"/>
+                    android:textColor="#DFDFDF"
+                    android:shadowColor="#444444"
+                    android:shadowDx="1"
+                    android:shadowDy="1"
+                    android:shadowRadius="1"/>
         </LinearLayout>
 
 
@@ -151,7 +171,6 @@
                 android:orientation="horizontal"
                 android:background="#50333333"
                 android:padding="10dp"
-                android:minHeight="100dp"
                 android:layout_marginTop="10dp">
 
             <TextView
@@ -179,20 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:textColor="#FFFFFF"
-                    android:text="鲜香咸"
-                    android:textSize="40sp"
-                    android:layout_alignBottom="@+id/genre"
-                    android:layout_below="@+id/row_wrap_0_h_line_0"/>
-
-            <edu.SJTU.ChiChi.views.VerticalTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="徽菜"
-                    android:id="@+id/genre"
-                    android:textSize="60sp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="70dp"
-                    android:lineSpacingMultiplier="1.2"
+                    android:textSize="30sp"
                     android:layout_below="@+id/row_wrap_0_h_line_0"/>
 
         </RelativeLayout>
@@ -232,6 +238,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
+                    android:lineSpacingMultiplier="1.1"
                     android:layout_below="@+id/row_wrap_1_h_line_0"/>
 
         </RelativeLayout>
@@ -267,11 +274,11 @@
             <fragment
                     android:id="@+id/map"
                     android:layout_width="match_parent"
-                    android:layout_height="160dp"
+                    android:layout_height="200dp"
                     android:name="com.google.android.gms.maps.MapFragment"
                     map:mapType="hybrid"
-                    map:cameraTargetLat="31.0224442"
-                    map:cameraTargetLng="121.4359062"
+                    map:cameraTargetLat="31.02203"
+                    map:cameraTargetLng="121.43159"
                     map:cameraZoom="15"
                     android:layout_below="@+id/row_wrap_2_h_line_0"/>
 
@@ -291,10 +298,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/ad"
-                    android:text="欢迎加入吃吃！发送短信到18616800000"
+                    android:text="发送报名短信到13916222681，吃吃等你来哦！"
                     android:textColor="#FFFFFF"
                     android:linksClickable="true"
                     android:autoLink="phone|email|web"
+                    android:textColorLink="#DFDFDF"
                     />
         </RelativeLayout>
 

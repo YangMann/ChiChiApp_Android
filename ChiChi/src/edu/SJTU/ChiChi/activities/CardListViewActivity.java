@@ -41,11 +41,14 @@ public class CardListViewActivity extends Activity {
     public static final String KEY_NAME = "name";
     public static final String KEY_GENRE = "genre";
     public static final String KEY_BUILDING = "building";
+    public static final String KEY_LAT = "lat";
+    public static final String KEY_LNG = "lng";
     public static final String KEY_RESTAURANT = "restaurant";
     public static final String KEY_PRICE = "price";
     public static final String KEY_TASTE = "taste";
     public static final String KEY_DESCRIPTION = "description";
     public static final String KEY_THUMB_URL = "thumb_url";
+    public static final String KEY_PHOTOGRAPHER = "photographer";
 
     public static final int MSG_JSON_FETCHED = 0;
     public static final int MSG_JSON_FAILED = 1;
@@ -270,11 +273,14 @@ public class CardListViewActivity extends Activity {
                 map.put(KEY_NAME, food.name);
                 map.put(KEY_GENRE, food.genre);
                 map.put(KEY_BUILDING, food.building);
+                map.put(KEY_LAT, food.lat);
+                map.put(KEY_LNG, food.lng);
                 map.put(KEY_RESTAURANT, food.restaurant);
                 map.put(KEY_PRICE, food.price);
                 map.put(KEY_TASTE, food.taste);
                 map.put(KEY_DESCRIPTION, food.description);
                 map.put(KEY_THUMB_URL, food.url);
+                map.put(KEY_PHOTOGRAPHER, food.photographer);
 
                 dishList.add(map);
                 ImageLoader imageLoader = new ImageLoader(getApplicationContext());

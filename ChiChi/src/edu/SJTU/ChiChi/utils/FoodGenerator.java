@@ -42,16 +42,22 @@ public class FoodGenerator {
         public String price;
         public String taste;
         public String description;
+        public String photographer;
+        public String lat;
+        public String lng;
 
-        public Food(String building, String restaurant, JSONObject fd) throws JSONException {
+        public Food(String building, String restaurant, double lat, double lng, JSONObject fd) throws JSONException {
             this.name = fd.getString("name");
             this.building = building;
+            this.lat = String.valueOf(lat);
+            this.lng = String.valueOf(lng);
             this.restaurant = restaurant;
             this.url = fd.getString("url");
             this.genre = fd.has("genre") ? fd.getString("genre") : "";
             this.price = fd.has("price") ? fd.getString("price") : "";
             this.taste = fd.has("taste") ? fd.getString("taste") : "";
             this.description = fd.has("description") ? fd.getString("description") : "";
+            this.photographer = fd.has("photographer") ? fd.getString("photographer") : "";
         }
     }
 
@@ -67,6 +73,8 @@ public class FoodGenerator {
         try {
             JSONObject bd = json.getJSONObject(bid);
             String building = bd.getString("building");
+            double lat = bd.getDouble("lat");
+            double lng = bd.getDouble("lng");
             int rc = bd.getJSONArray("restaurants").length();
             Random rand = new Random();
             int rid = Math.abs(rand.nextInt() % rc);
@@ -75,7 +83,7 @@ public class FoodGenerator {
             int fc = rs.getJSONArray("foods").length();
             int fid = Math.abs(rand.nextInt() % fc);
             JSONObject fd = rs.getJSONArray("foods").getJSONObject(fid);
-            return new Food(building, restaurant, fd);
+            return new Food(building, restaurant, lat, lng, fd);
         } catch (JSONException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

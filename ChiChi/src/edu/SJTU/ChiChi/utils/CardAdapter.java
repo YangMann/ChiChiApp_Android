@@ -83,8 +83,9 @@ public class CardAdapter extends BaseAdapter {
                 TextView copyright = (TextView) vi.findViewById(R.id.copyright);
                 TextView tasteHeader = (TextView) vi.findViewById(R.id.tasteHeader);
                 TextView taste = (TextView) vi.findViewById(R.id.taste);
-                TextView genre = (TextView) vi.findViewById(R.id.genre);
+//                TextView genre = (TextView) vi.findViewById(R.id.genre);
                 TextView building = (TextView) vi.findViewById(R.id.building);
+                TextView photographer = (TextView) vi.findViewById(R.id.photographer);
                 TextView restaurant = (TextView) vi.findViewById(R.id.restaurant);
                 TextView descriptionHeader = (TextView) vi.findViewById(R.id.descriptionHeader);
                 TextView description = (TextView) vi.findViewById(R.id.description);
@@ -97,10 +98,12 @@ public class CardAdapter extends BaseAdapter {
                 building.setText(dish.get(CardListViewActivity.KEY_BUILDING));
                 restaurant.setText(dish.get(CardListViewActivity.KEY_RESTAURANT));
                 description.setText(dish.get(CardListViewActivity.KEY_DESCRIPTION));
+                photographer.setText(dish.get(CardListViewActivity.KEY_PHOTOGRAPHER));
+                taste.setText(dish.get(CardListViewActivity.KEY_TASTE));
 
                 name.setTypeface(Kangxi);
                 price.setTypeface(HelveticaU);
-                genre.setTypeface(Kangxi);
+//                genre.setTypeface(Kangxi);
 
                 if (displayLanguage.equals("English")) {
                     tasteHeader.setTypeface(Helvetica);
