@@ -64,3 +64,4 @@ for line in fin.readlines():
     preb = building
     prer = restaurant
 fout.write(']}]}]')
+

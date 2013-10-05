@@ -7,7 +7,7 @@ import org.json.JSONObject;
 import java.util.Random;
 
 public class FoodGenerator {
-    String json_url = "http://wl.ibox.sjtu.edu.cn/w/8207/food.json";
+    String json_url = "http://wl.ibox.sjtu.edu.cn/w/8207/food.json";  // JSON的网络地址
     JSONArray json = null;
 
     public FoodGenerator() {
@@ -71,6 +71,7 @@ public class FoodGenerator {
 
     public Food getFood(int bid) {
         try {
+//            随机生成
             JSONObject bd = json.getJSONObject(bid);
             String building = bd.getString("building");
             double lat = bd.getDouble("lat");

@@ -50,6 +50,7 @@ public class CardListViewActivity extends Activity {
     public static final String KEY_THUMB_URL = "thumb_url";
     public static final String KEY_PHOTOGRAPHER = "photographer";
 
+    //    MSG 常量
     public static final int MSG_JSON_FETCHED = 0;
     public static final int MSG_JSON_FAILED = 1;
     public static final int MSG_SPLASH_FINISHED = 2;
@@ -57,22 +58,22 @@ public class CardListViewActivity extends Activity {
     public static final int MSG_SENSOR_SHAKE = 10;
     public static final int MSG_REFRESH_PRESSED = 11;
 
-    private static boolean IN_PROGRESS = true;
+    private static boolean IN_PROGRESS = true;  // “正在处理”标记
 
-    private static final int SPLASH_TIME = 0;
-    private static final int SENSOR_THRESHOLD = 32;
-    public static final double PARALLAX_RATIO = 2.5;
-    public static final int MAX_SHIFT = 500;
-    public static final int BLUR_RADIUS = 25;
+    private static final int SPLASH_TIME = 0;  // 闪屏时间
+    private static final int SENSOR_THRESHOLD = 32;  // 摇晃间隔
+    public static final double PARALLAX_RATIO = 2.5;  // 视差效果比例
+    public static final int MAX_SHIFT = 500;  // 背景图片最大位移距离
+    public static final int BLUR_RADIUS = 25;  // 模糊半径
 
 
-    private ListView list;
-    private ImageView bg;
-    private ImageView bg_blurred;
-    private Bitmap blurred_img;
-    private ImageButton refresh_button;
-    private ImageButton refresh_button_shadow;
-    private Animation roundLoading;
+    private ListView list;  // 最外层ListView
+    private ImageView bg;  // 原始背景ImageView
+    private ImageView bg_blurred;  // 模糊背景ImageView
+    private Bitmap blurred_img;  // 模糊背景Bitmap
+    private ImageButton refresh_button;  // 刷新按钮
+    private ImageButton refresh_button_shadow;  // 刷新按钮的阴影
+    private Animation roundLoading;  // 刷新按钮旋转动画
 
     private SensorManager sensorManager;
     private Vibrator vibrator;
@@ -82,10 +83,10 @@ public class CardListViewActivity extends Activity {
 
     ArrayList<HashMap<String, String>> dishList;
 
-    MainHandler mHandler = new MainHandler();
-    FoodGenerator fg = new FoodGenerator();
+    MainHandler mHandler = new MainHandler();  // Handler集中处理MSG请求
+    FoodGenerator fg = new FoodGenerator();  // FoodGenerator生成随机食物
 
-    public String getJSONFromAssets(String filename) {
+    public String getJSONFromAssets(String filename) {  // 从assets中获得JSON
         String result = "";
         try {
             InputStream in = getResources().getAssets().open(filename);
@@ -122,6 +123,7 @@ public class CardListViewActivity extends Activity {
         list.setSelected(false);
 
 
+//        FooterView 是为了在整个List底端添加一段空白
         View footerView = new View(this);
         footerView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, 0));
         list.addFooterView(footerView);
@@ -173,6 +175,7 @@ public class CardListViewActivity extends Activity {
         refresh_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                刷新按钮监听
                 refresh_button.startAnimation(roundLoading);
                 refresh_button_shadow.startAnimation(roundLoading);
 //                Log.e("button", "button clicked!");
