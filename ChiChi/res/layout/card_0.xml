@@ -44,7 +44,7 @@
                 android:shadowRadius="1"
                 />
         <!--
-    <edu.SJTU.ChiChi.views.VerticalTextView
+    <edu.SJTU.ChiChiDevDev.views.VerticalTextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -272,16 +272,21 @@
                     android:layout_marginBottom="10dp"/>
 
             <fragment
-                    android:id="@+id/map"
+                    android:id="@+id/smallmap"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:name="com.google.android.gms.maps.MapFragment"
                     map:mapType="hybrid"
                     map:cameraTargetLat="31.02203"
                     map:cameraTargetLng="121.43159"
-                    map:cameraZoom="15"
+                    map:cameraZoom="16"
                     android:layout_below="@+id/row_wrap_2_h_line_0"/>
+            <!--
+            maptype被改为normal
+            camerazoom改为16
+             uiScrollGestures 可以disable
 
+             2013-11-13 游杰-->
         </RelativeLayout>
 
         <RelativeLayout
